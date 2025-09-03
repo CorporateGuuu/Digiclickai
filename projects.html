@@ -53,16 +53,45 @@
     <nav class="bg-blue-700 text-white fixed top-0 w-full z-50 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <h1 class="text-3xl font-extrabold">Digiclick AI</h1>
-            <ul class="flex space-x-8 text-lg">
+            <button id="hamburger" class="md:hidden text-white focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+            <ul class="hidden md:flex space-x-8 text-lg">
                 <li><a href="index.html" class="hover:text-orange-400 transition-colors">Home</a></li>
-                <li><a href="index.html#services" class="hover:text-orange-400 transition-colors">Services</a></li>
-                <li><a href="index.html#demo" class="hover:text-orange-400 transition-colors">Demo</a></li>
-                <li><a href="index.html#faqs" class="hover:text-orange-400 transition-colors">FAQs</a></li>
-                <li><a href="index.html#blog" class="hover:text-orange-400 transition-colors">Blog</a></li>
-                <li><a href="/projects" class="text-orange-400 font-semibold">Projects</a></li>
+                <li><a href="solutions.html" class="hover:text-orange-400 transition-colors">Solutions</a></li>
+                <li><a href="projects.html" class="text-orange-400 font-semibold">Projects</a></li>
+                <li><a href="pricing.html" class="hover:text-orange-400 transition-colors">Pricing</a></li>
+                <li><a href="about.html" class="hover:text-orange-400 transition-colors">About</a></li>
+                <li><a href="contact.html" class="hover:text-orange-400 transition-colors">Contact</a></li>
+                <li><a href="blog.html" class="hover:text-orange-400 transition-colors">Blog</a></li>
             </ul>
         </div>
     </nav>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-drawer" class="fixed top-0 right-0 h-full w-64 bg-blue-700 text-white transform translate-x-full transition-transform duration-300 z-50">
+        <div class="flex justify-end p-4">
+            <button id="close-drawer" class="text-white focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <ul class="flex flex-col space-y-4 p-4 text-lg">
+            <li><a href="index.html" class="hover:text-orange-400 transition-colors">Home</a></li>
+            <li><a href="solutions.html" class="hover:text-orange-400 transition-colors">Solutions</a></li>
+            <li><a href="projects.html" class="text-orange-400 font-semibold">Projects</a></li>
+            <li><a href="pricing.html" class="hover:text-orange-400 transition-colors">Pricing</a></li>
+            <li><a href="about.html" class="hover:text-orange-400 transition-colors">About</a></li>
+            <li><a href="contact.html" class="hover:text-orange-400 transition-colors">Contact</a></li>
+            <li><a href="blog.html" class="hover:text-orange-400 transition-colors">Blog</a></li>
+        </ul>
+    </div>
+
+    <!-- Drawer Overlay -->
+    <div class="layout-drawer-overlay" id="layout-drawer-overlay"></div>
 
     <!-- Hero Section -->
     <section id="hero" class="hero text-white py-32 section">
@@ -74,7 +103,7 @@
             <h3 class="text-lg font-semibold text-left mb-6">
                 <span>DIGICLICK AI®</span> <span>TRUSTED BY BUSINESSES TO </span><strong>CREATE, MANAGE, AND AUTOMATE DIGITAL SOLUTIONS.</strong>
             </h3>
-            <a href="/contact" class="dmButtonLink inline-flex items-center px-6 py-3 rounded-xl text-white font-semibold text-center">
+            <a href="contact.html" class="dmButtonLink inline-flex items-center px-6 py-3 rounded-xl text-white font-semibold text-center">
                 <span class="icon-star mr-2 text-yellow-300">★</span>
                 <span>Book a demo →</span>
             </a>
@@ -120,7 +149,7 @@
                     <h3 class="text-2xl font-semibold mb-2 text-blue-700">TEADM Bubble Tea & Coffee</h3>
                     <p class="text-lg font-medium mb-4 text-gray-600">Design and Marketing</p>
                     <h4 class="text-xl font-semibold mb-2 text-gray-900">Project Overview</h4>
-                    <p class="text-lg mb-4 text-gray-600">To better serve our customers across all 5 DMV locations, TEADM Lounge has upgraded to a faster, modern website with an improved AI-enhanced UI/UX design. The new platform features:</p>
+                    <p class="text-lg mb-4 text-gray-600">To better serve our customers across all 5 DMV locations, TEADM Lounge has upgraded to a faster, modern website with an improved AI-enhanced UI/UX design.</p>
                     <ul class="list-none space-y-2">
                         <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Quick-access links for faster ordering</li>
                         <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Streamlined user experience across devices</li>
@@ -133,7 +162,7 @@
                     <h3 class="text-2xl font-semibold mb-2 text-blue-700">Pop-Up District – Eden Center</h3>
                     <p class="text-lg font-medium mb-4 text-gray-600">Design and Marketing</p>
                     <h4 class="text-xl font-semibold mb-2 text-gray-900">Project Overview</h4>
-                    <p class="text-lg mb-4 text-gray-600">At Pop-Up District, located in the heart of Eden Center, we built a vibrant and user-friendly website designed to enhance the customer experience from start to finish. Our AI-optimized site reflects the energy and diversity of Pop-Up District, driving engagement, increasing traffic, and supporting vendor growth. The mobile-first design ensures a flawless experience across all devices.</p>
+                    <p class="text-lg mb-4 text-gray-600">At Pop-Up District, located in the heart of Eden Center, we built a vibrant and user-friendly website designed to enhance the customer experience from start to finish. Our AI-optimized site reflects the energy and diversity of Pop-Up District, driving engagement, increasing traffic, and supporting vendor growth.</p>
                 </div>
             </div>
         </div>
@@ -141,7 +170,28 @@
 
     <!-- Footer -->
     <footer class="bg-blue-700 text-white py-10 text-center">
-        <p class="text-lg">&copy; 2025 Digiclick AI. All rights reserved.</p>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-lg mb-4">&copy; 2025 Digiclick AI. All rights reserved.</p>
+            <div class="contact-cta card p-6 bg-white text-gray-900 rounded-xl shadow-lg">
+                <h4 class="text-xl font-semibold mb-4 text-blue-700">Get in Touch</h4>
+                <p class="text-lg mb-4 text-gray-600">Ready to elevate your business with AI-powered solutions? Contact us today!</p>
+                <a href="contact.html" class="dmButtonLink inline-flex items-center px-6 py-3 rounded-xl text-white font-semibold">
+                    <span class="icon-star mr-2 text-yellow-300">★</span>
+                    <span>Contact Us</span>
+                </a>
+                <div class="mt-4 flex justify-center space-x-4">
+                    <a href="https://twitter.com" target="_blank" class="text-blue-700 hover:text-orange-400 transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.643 4.937c-.835.37-1.732.62-2.675.733a4.67 4.67 0 002.048-2.578 9.3 9.3 0 01-2.958 1.13 4.66 4.66 0 00-7.938 4.25 13.229 13.229 0 01-9.602-4.868c-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878a4.647 4.647 0 01-2.11-.583v.06c0 2.257 1.605 4.138 3.737 4.566a4.68 4.68 0 01-2.103.08c.592 1.848 2.313 3.192 4.356 3.228a9.337 9.337 0 01-5.766 1.987c-.374 0-.743-.022-1.106-.065a13.19 13.19 0 007.14 2.093c8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.401-.014-.602a9.47 9.47 0 002.323-2.41z"/></svg>
+                    </a>
+                    <a href="https://facebook.com" target="_blank" class="text-blue-700 hover:text-orange-400 transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.731 0 1.325-.593 1.325-1.325V1.325C24 .593 23.407 0 22.675 0z"/></svg>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" class="text-blue-700 hover:text-orange-400 transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <script>
@@ -163,6 +213,27 @@
             });
         }, { threshold: 0.2 });
         sections.forEach(section => observer.observe(section));
+
+        // Mobile drawer toggle
+        const hamburger = document.getElementById('hamburger');
+        const drawer = document.getElementById('mobile-drawer');
+        const overlay = document.getElementById('layout-drawer-overlay');
+        const closeDrawer = document.getElementById('close-drawer');
+
+        hamburger.addEventListener('click', () => {
+            drawer.classList.toggle('translate-x-full');
+            overlay.classList.toggle('active');
+        });
+
+        closeDrawer.addEventListener('click', () => {
+            drawer.classList.add('translate-x-full');
+            overlay.classList.remove('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            drawer.classList.add('translate-x-full');
+            overlay.classList.remove('active');
+        });
     </script>
 </body>
 </html>

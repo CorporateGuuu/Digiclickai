@@ -1,0 +1,341 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Digiclick AI - AI-powered solutions for branding, web development, e-commerce, marketing, and SEO.">
+    <title>Digiclick AI - Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-900">
+    <!-- Navigation -->
+    <nav class="bg-blue-700 text-white fixed top-0 w-full z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold">Digiclick AI</h1>
+            <button id="hamburger" class="md:hidden text-white focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+            <ul class="hidden md:flex space-x-8 text-lg">
+                <li><a href="index.html" class="hover:text-orange-400 transition-colors">Home</a></li>
+                <li><a href="solutions.html" class="text-orange-400 font-semibold">Solutions</a></li>
+                <li><a href="projects.html" class="hover:text-orange-400 transition-colors">Projects</a></li>
+                <li><a href="pricing.html" class="hover:text-orange-400 transition-colors">Pricing</a></li>
+                <li><a href="about.html" class="hover:text-orange-400 transition-colors">About</a></li>
+                <li><a href="contact.html" class="hover:text-orange-400 transition-colors">Contact</a></li>
+                <li><a href="blog.html" class="hover:text-orange-400 transition-colors">Blog</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-drawer" class="fixed top-0 right-0 h-full w-64 bg-blue-700 text-white transform translate-x-full transition-transform duration-300 z-50">
+        <div class="flex justify-end p-4">
+            <button id="close-drawer" class="text-white focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <ul class="flex flex-col space-y-4 p-4 text-lg">
+            <li><a href="index.html" class="hover:text-orange-400 transition-colors">Home</a></li>
+            <li><a href="solutions.html" class="text-orange-400 font-semibold">Solutions</a></li>
+            <li><a href="projects.html" class="hover:text-orange-400 transition-colors">Projects</a></li>
+            <li><a href="pricing.html" class="hover:text-orange-400 transition-colors">Pricing</a></li>
+            <li><a href="about.html" class="hover:text-orange-400 transition-colors">About</a></li>
+            <li><a href="contact.html" class="hover:text-orange-400 transition-colors">Contact</a></li>
+            <li><a href="blog.html" class="hover:text-orange-400 transition-colors">Blog</a></li>
+        </ul>
+    </div>
+
+    <!-- Drawer Overlay -->
+    <div class="layout-drawer-overlay" id="layout-drawer-overlay"></div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero text-white py-32 section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-start">
+            <div class="pulse">
+                <h1 class="text-6xl font-extrabold mb-6 text-left">Solutions</h1>
+            </div>
+            <h5 class="text-sm font-semibold text-yellow-300 mb-4 text-center w-full">EST 2023</h5>
+            <h3 class="text-lg font-semibold text-left mb-6">
+                <span>DIGICLICK AI®</span> <span>DELIVERS </span><strong>AI-POWERED SOLUTIONS</strong> <strong>FOR YOUR BUSINESS.</strong>
+            </h3>
+            <a href="contact.html" class="dmButtonLink inline-flex items-center px-6 py-3 rounded-xl text-white font-semibold text-center">
+                <span class="icon-star mr-2 text-yellow-300">★</span>
+                <span>Book a demo →</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section id="solutions" class="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50 section">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-extrabold mb-12 text-blue-700">Discover Our Solutions</h2>
+            <div class="space-y-12">
+                <!-- Branding Solutions -->
+                <div class="card p-8 bg-white rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-700">Branding Solutions</h3>
+                    <p class="text-lg mb-4 text-gray-600">We Build Brands That Perform. With our solutions, we don’t just design for aesthetics...we create digital experiences that drive action.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-xl font-semibold mb-2 text-gray-900">Brand Strategy & Positioning</h4>
+                            <p class="text-lg mb-4 text-gray-600">We define your brand’s core identity, mission, and market positioning to ensure a strong foundation for growth.</p>
+                            <ul class="list-none space-y-2">
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Identify your brand’s voice and tone</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Create clear and consistent messaging</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Position your brand to stand out from competitors</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Align your visual and written identity across all platforms</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold mb-2 text-gray-900">Logo & Visual Identity</h4>
+                            <p class="text-lg mb-4 text-gray-600">We craft distinctive logos and cohesive visual systems that strengthen brand recognition and create a lasting impression.</p>
+                            <ul class="list-none space-y-2">
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Custom Logo Design</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Visual Identity Systems</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Brand Guidelines</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Business Collateral Design</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Digital & Print Ready Files</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Website Development -->
+                <div class="card p-8 bg-white rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-700">Website Development</h3>
+                    <p class="text-lg mb-4 text-gray-600">We design and develop functional and business-specific technological solutions that solve real-world challenges.</p>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Custom, mobile-friendly designs</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Fast-loading, SEO-optimized pages</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Easy-to-manage backends (CMS)</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> E-commerce, booking, and form integrations</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Scalable solutions tailored to your goals</li>
+                    </ul>
+                </div>
+
+                <!-- E-Commerce Solutions -->
+                <div class="card p-8 bg-white rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-700">E-Commerce Solutions & App Integration</h3>
+                    <p class="text-lg mb-4 text-gray-600">Building online stores with secure payment gateways, inventory management, and user-friendly interfaces.</p>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Custom online stores with full product management</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Secure payment gateway integrations</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Mobile app development for iOS & Android</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Inventory tracking, order management, and customer accounts</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Integration with shipping, email, and marketing tools</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Real-time sync between your site and app</li>
+                    </ul>
+                    <h4 class="text-xl font-semibold mt-6 mb-2 text-gray-900">Weekly Reports</h4>
+                    <p class="text-lg mb-4 text-gray-600">We make sure you are always up-to-date with your website through our weekly reporting.</p>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Weekly performance and traffic reports</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Site updates and maintenance</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Security monitoring</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Speed and SEO checks</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Error detection and quick fixes</li>
+                    </ul>
+                </div>
+
+                <!-- Marketing Solutions -->
+                <div class="card p-8 bg-white rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-700">Marketing Solutions</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div>
+                            <h4 class="text-xl font-semibold mb-2 text-gray-900">Email Marketing Campaign</h4>
+                            <p class="text-lg mb-4 text-gray-600">Unlock the power of Email Marketing with our tailored campaigns designed to directly engage your audience.</p>
+                            <ul class="list-none space-y-2">
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Custom Email Designs</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Targeted Campaigns</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Automated Workflows</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> A/B Testing</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Performance Tracking & Analytics</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Inbox Placement Guarantee</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold mb-2 text-gray-900">Google Ads Campaign Management</h4>
+                            <p class="text-lg mb-4 text-gray-600">Maximize your reach with Google Ads to drive traffic, generate leads, and grow your business.</p>
+                            <ul class="list-none space-y-2">
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Targeted Ads</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Keyword Research</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Ad Creation</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Performance Tracking</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Budget Optimization</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold mb-2 text-gray-900">Social Media Marketing</h4>
+                            <p class="text-lg mb-4 text-gray-600">Boost your brand visibility and drive engagement with powerful Social Media Marketing.</p>
+                            <ul class="list-none space-y-2">
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Website & Social Integration</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Content Strategy & Scheduling</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Product & Service Promotion</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Multi-Platform Management</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Analytics & Reporting</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Management -->
+                <div class="card p-8 bg-white rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-700">Management</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-xl font-semibold mb-2 text-gray-900">Maintenance and Support</h4>
+                            <p class="text-lg mb-4 text-gray-600">Ongoing support to keep your website up-to-date, secure, and at peak performance.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold mb-2 text-gray-900">24/7 Website Updates & Management</h4>
+                            <p class="text-lg mb-4 text-gray-600">We offer around-the-clock website updates to keep your content fresh and accurate.</p>
+                            <ul class="list-none space-y-2">
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Updating menus, pricing, and event flyers</li>
+                                <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Design tweaks</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEO Services -->
+                <div class="card p-8 bg-white rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-700">SEO Services</h3>
+                    <p class="text-lg mb-4 text-gray-600">Rank Higher. Get Found. Grow Faster.</p>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Local SEO: Appear in Google Maps and local search results</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> On-Page SEO: Optimize content, structure, and keywords</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Off-Page SEO & Link Building: Boost domain authority</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Technical SEO: Fix errors and improve crawlability</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> SEO Audits & Reporting: Monthly performance reports</li>
+                    </ul>
+                </div>
+
+                <!-- Professional Email -->
+                <div class="card p-8 bg-white rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-700">Professional Email for Your Business</h3>
+                    <p class="text-lg mb-4 text-gray-600">Boost your brand credibility with custom email addresses starting at just $3.99/user.</p>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Affordable Pricing: Starting at $3.99 per user/month</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Custom Domains: Use your own domain name</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Reliable & Secure: 99.9% uptime, spam protection</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Easy Access: Sync across all devices</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Seamless Integration: Works with Gmail, Outlook, and more</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Support You Can Trust</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-700 text-white py-10 text-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-lg mb-4">&copy; 2025 Digiclick AI. All rights reserved.</p>
+            <div class="contact-cta card p-6 bg-white text-gray-900 rounded-xl shadow-lg">
+                <h4 class="text-xl font-semibold mb-4 text-blue-700">Get in Touch</h4>
+                <p class="text-lg mb-4 text-gray-600">Ready to elevate your business with AI-powered solutions? Contact us today!</p>
+                <a href="contact.html" class="dmButtonLink inline-flex items-center px-6 py-3 rounded-xl text-white font-semibold">
+                    <span class="icon-star mr-2 text-yellow-300">★</span>
+                    <span>Contact Us</span>
+                </a>
+                <div class="mt-4 flex justify-center space-x-4">
+                    <a href="https://twitter.com" target="_blank" class="text-blue-700 hover:text-orange-400 transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.643 4.937c-.835.37-1.732.62-2.675.733a4.67 4.67 0 002.048-2.578 9.3 9.3 0 01-2.958 1.13 4.66 4.66 0 00-7.938 4.25 13.229 13.229 0 01-9.602-4.868c-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878a4.647 4.647 0 01-2.11-.583v.06c0 2.257 1.605 4.138 3.737 4.566a4.68 4.68 0 01-2.103.08c.592 1.848 2.313 3.192 4.356 3.228a9.337 9.337 0 01-5.766 1.987c-.374 0-.743-.022-1.106-.065a13.19 13.19 0 007.14 2.093c8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.401-.014-.602a9.47 9.47 0 002.323-2.41z"/></svg>
+                    </a>
+                    <a href="https://facebook.com" target="_blank" class="text-blue-700 hover:text-orange-400 transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.731 0 1.325-.593 1.325-1.325V1.325C24 .593 23.407 0 22.675 0z"/></svg>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" class="text-blue-700 hover:text-orange-400 transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Section animations on scroll
+        const sections = document.querySelectorAll('.section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+        sections.forEach(section => observer.observe(section));
+
+        // Mobile drawer toggle
+        const hamburger = document.getElementById('hamburger');
+        const drawer = document.getElementById('mobile-drawer');
+        const overlay = document.getElementById('layout-drawer-overlay');
+        const closeDrawer = document.getElementById('close-drawer');
+
+        hamburger.addEventListener('click', () => {
+            drawer.classList.toggle('translate-x-full');
+            overlay.classList.toggle('active');
+        });
+
+        closeDrawer.addEventListener('click', () => {
+            drawer.classList.add('translate-x-full');
+            overlay.classList.remove('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            drawer.classList.add('translate-x-full');
+            overlay.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
