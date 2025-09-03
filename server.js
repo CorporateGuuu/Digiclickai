@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
 const demoRoutes = require('./routes/demo');
+const contactRoutes = require('./routes/contact');
 
 const app = express();
 
@@ -28,9 +29,20 @@ mongoose.connect(process.env.MONGO_URI, {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/demo', demoRoutes);
+app.use('/api/contact', contactRoutes);
 
 // Serve index.html for root route
 app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Serve contact.html explicitly
+app.get('/contact.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'contact.html'));
+});
+
+// Fallback to index.html for SPA routing for other routes
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
