@@ -90,8 +90,7 @@
         </ul>
     </div>
 
-    <!-- Drawer Overlay -->
-    <div class="layout-drawer-overlay" id="layout-drawer-overlay"></div>
+
 
     <!-- Hero Section -->
     <section id="hero" class="hero text-white py-32 section">
@@ -130,10 +129,13 @@
             <h4 class="text-3xl font-extrabold mb-6 text-blue-700">Go Live & Start Generating Revenue</h4>
             <p class="text-lg mb-8 text-gray-600">Once your site goes live, we offer ongoing AI-powered support and maintenance to keep your website updated and running smoothly. Ready to get started? Fill out the form to schedule a demo.</p>
             <div class="max-w-lg mx-auto">
-                <input type="text" placeholder="Your Name" class="w-full p-4 mb-4 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-700">
-                <input type="email" placeholder="Your Email" class="w-full p-4 mb-4 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-700">
-                <textarea placeholder="Your Message" rows="5" class="w-full p-4 mb-4 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-700"></textarea>
-                <button class="dmButtonLink w-full px-6 py-4 rounded-xl text-white font-semibold text-center">Schedule Demo</button>
+                <form id="demoForm">
+                    <input type="text" id="name" placeholder="Your Name" class="w-full p-4 mb-4 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-700" required>
+                    <input type="email" id="email" placeholder="Your Email" class="w-full p-4 mb-4 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-700" required>
+                    <textarea id="message" placeholder="Your Message" rows="5" class="w-full p-4 mb-4 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-700" required></textarea>
+                    <button type="submit" class="dmButtonLink w-full px-6 py-4 rounded-xl text-white font-semibold text-center">Schedule Demo</button>
+                </form>
+                <div id="formMessage" class="mt-4 text-center"></div>
             </div>
         </div>
     </section>
@@ -275,22 +277,46 @@
         // Mobile drawer toggle
         const hamburger = document.getElementById('hamburger');
         const drawer = document.getElementById('mobile-drawer');
-        const overlay = document.getElementById('layout-drawer-overlay');
+
         const closeDrawer = document.getElementById('close-drawer');
 
         hamburger.addEventListener('click', () => {
             drawer.classList.toggle('translate-x-full');
-            overlay.classList.toggle('active');
         });
 
         closeDrawer.addEventListener('click', () => {
             drawer.classList.add('translate-x-full');
-            overlay.classList.remove('active');
         });
 
-        overlay.addEventListener('click', () => {
-            drawer.classList.add('translate-x-full');
-            overlay.classList.remove('active');
+
+
+        // Handle demo form submission
+        document.getElementById('demoForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            const formMessage = document.getElementById('formMessage');
+
+            try {
+                const response = await fetch('/api/demo/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, message }),
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    formMessage.innerHTML = '<p class="text-green-600">Demo request submitted successfully!</p>';
+                    document.getElementById('demoForm').reset();
+                } else {
+                    formMessage.innerHTML = `<p class="text-red-600">${data.message}</p>`;
+                }
+            } catch (error) {
+                formMessage.innerHTML = '<p class="text-red-600">An error occurred. Please try again.</p>';
+            }
         });
     </script>
 </body>
