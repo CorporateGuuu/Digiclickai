@@ -1,0 +1,79 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.hero {
+    background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+}
+
+.hero h1 {
+    line-height: 0.9;
+}
+
+.dmButtonLink {
+    background: linear-gradient(90deg, #3B82F6, #F97316);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dmButtonLink:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.faq-item {
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.faq-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.faq-answer {
+    display: none;
+}
+
+.faq-answer.active {
+    display: block;
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+}
+
+.section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 43px;
+    }
+    .pulse {
+        animation: pulse 1s infinite;
+    }
+}
+
+@media (min-width: 769px) {
+    .hero h1 {
+        font-size: 60px;
+    }
+}

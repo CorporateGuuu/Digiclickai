@@ -1,0 +1,168 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Digiclick AI - Projects showcasing AI-powered web and mobile solutions.">
+    <title>Digiclick AI - Projects</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-900">
+    <!-- Navigation -->
+    <nav class="bg-blue-700 text-white fixed top-0 w-full z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold">Digiclick AI</h1>
+            <ul class="flex space-x-8 text-lg">
+                <li><a href="index.html" class="hover:text-orange-400 transition-colors">Home</a></li>
+                <li><a href="index.html#services" class="hover:text-orange-400 transition-colors">Services</a></li>
+                <li><a href="index.html#demo" class="hover:text-orange-400 transition-colors">Demo</a></li>
+                <li><a href="index.html#faqs" class="hover:text-orange-400 transition-colors">FAQs</a></li>
+                <li><a href="index.html#blog" class="hover:text-orange-400 transition-colors">Blog</a></li>
+                <li><a href="/projects" class="text-orange-400 font-semibold">Projects</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero text-white py-32 section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-start">
+            <div class="pulse">
+                <h1 class="text-6xl font-extrabold mb-6 text-left">Convert Fast</h1>
+            </div>
+            <h5 class="text-sm font-semibold text-yellow-300 mb-4 text-center w-full">EST 2023</h5>
+            <h3 class="text-lg font-semibold text-left mb-6">
+                <span>DIGICLICK AI®</span> <span>TRUSTED BY BUSINESSES TO </span><strong>CREATE, MANAGE, AND AUTOMATE DIGITAL SOLUTIONS.</strong>
+            </h3>
+            <a href="/contact" class="dmButtonLink inline-flex items-center px-6 py-3 rounded-xl text-white font-semibold text-center">
+                <span class="icon-star mr-2 text-yellow-300">★</span>
+                <span>Book a demo →</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50 section">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-extrabold mb-12 text-blue-700">Our Projects</h2>
+            <div class="space-y-12">
+                <!-- Project: Rosebar Lounge -->
+                <div class="card p-8 bg-white rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-2 text-blue-700">Rosebar Lounge, DC</h3>
+                    <p class="text-lg font-medium mb-4 text-gray-600">E-commerce Website & App</p>
+                    <h4 class="text-xl font-semibold mb-2 text-gray-900">Project Overview</h4>
+                    <p class="text-lg mb-4 text-gray-600">Built for the #1 nightclub in DC, this high-performance website, powered by AI-driven analytics, streamlines ticket sales and table reservations, all in one seamless experience.</p>
+                </div>
+
+                <!-- Project: Springfield Butcher -->
+                <div class="card p-8 bg-white rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-2 text-blue-700">Springfield Butcher, VA</h3>
+                    <p class="text-lg font-medium mb-4 text-gray-600">Online Ordering</p>
+                    <h4 class="text-xl font-semibold mb-2 text-gray-900">Project Overview</h4>
+                    <p class="text-lg mb-4 text-gray-600">The goal of this project was to launch Springfield Butcher’s first in-house AI-powered online ordering system, eliminating the need for high-cost third-party platforms like Uber Eats and Postmates, and putting control (and profits) back in their hands.</p>
+                </div>
+
+                <!-- Project: Urgent Passport and Visa -->
+                <div class="card p-8 bg-white rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-2 text-blue-700">Urgent Passport and Visa, DC</h3>
+                    <p class="text-lg font-medium mb-4 text-gray-600">Design and Marketing</p>
+                    <h4 class="text-xl font-semibold mb-2 text-gray-900">Project Overview</h4>
+                    <p class="text-lg mb-4 text-gray-600">We’ve launched a user-friendly website designed for fast access to passport and visa services. With just a few clicks, users can easily find the information they need and place orders online through our AI-optimized platform.</p>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Simple navigation for quick ordering</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Built-in AI-driven marketing tools to drive traffic</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Optimized layout for mobile and desktop users</li>
+                    </ul>
+                </div>
+
+                <!-- Project: TEADM Bubble Tea & Coffee -->
+                <div class="card p-8 bg-white rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-2 text-blue-700">TEADM Bubble Tea & Coffee</h3>
+                    <p class="text-lg font-medium mb-4 text-gray-600">Design and Marketing</p>
+                    <h4 class="text-xl font-semibold mb-2 text-gray-900">Project Overview</h4>
+                    <p class="text-lg mb-4 text-gray-600">To better serve our customers across all 5 DMV locations, TEADM Lounge has upgraded to a faster, modern website with an improved AI-enhanced UI/UX design. The new platform features:</p>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Quick-access links for faster ordering</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Streamlined user experience across devices</li>
+                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> AI-driven tools that capture and utilize customer data for personalized service</li>
+                    </ul>
+                </div>
+
+                <!-- Project: Pop-Up District -->
+                <div class="card p-8 bg-white rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-2 text-blue-700">Pop-Up District – Eden Center</h3>
+                    <p class="text-lg font-medium mb-4 text-gray-600">Design and Marketing</p>
+                    <h4 class="text-xl font-semibold mb-2 text-gray-900">Project Overview</h4>
+                    <p class="text-lg mb-4 text-gray-600">At Pop-Up District, located in the heart of Eden Center, we built a vibrant and user-friendly website designed to enhance the customer experience from start to finish. Our AI-optimized site reflects the energy and diversity of Pop-Up District, driving engagement, increasing traffic, and supporting vendor growth. The mobile-first design ensures a flawless experience across all devices.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-700 text-white py-10 text-center">
+        <p class="text-lg">&copy; 2025 Digiclick AI. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Section animations on scroll
+        const sections = document.querySelectorAll('.section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+        sections.forEach(section => observer.observe(section));
+    </script>
+</body>
+</html>
