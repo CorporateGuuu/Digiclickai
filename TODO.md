@@ -1,0 +1,2 @@
+- [x] Remove the drawer overlay div from index.html
+- [x] Remove JavaScript references to the overlay in index.html
