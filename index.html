@@ -148,8 +148,9 @@
 
   /* Solutions */
   .solutions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 40px;
     max-width: 1300px;
     margin: 0 auto;
@@ -164,6 +165,7 @@
     border: 2px solid #f8f9fa;
     position: relative;
     overflow: hidden;
+    flex: 0 0 320px;
   }
   .solution-card::before {
     content: '';
@@ -194,14 +196,14 @@
   }
   .solution-card h3 {
     margin-bottom: 18px;
-    color: #2c3e50;
+    color: #000000;
     font-weight: 700;
     font-size: 1.3rem;
     transition: color 0.3s ease;
   }
   .solution-card:hover h3 { color: #ffd700; }
   .solution-card p {
-    color: #7f8c8d;
+    color: #333333;
     line-height: 1.7;
     font-size: 1rem;
   }
@@ -218,7 +220,7 @@
   .process-step {
     flex: 1 1 280px;
     background: #ffffff;
-    color: #2c3e50;
+    color: #000000;
     border-radius: 15px;
     padding: 40px 30px;
     text-align: center;
@@ -230,7 +232,8 @@
   }
   .process-step::before { content: attr(data-step); position: absolute; top: -20px; right: -20px; background: #ffd700; color: #000000; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(255,215,0,0.3); }
   .process-step:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 15px 40px rgba(0,0,0,0.12); }
-  .process-step h3 { margin-bottom: 20px; font-weight: 600; }
+  .process-step h3 { margin-bottom: 20px; font-weight: 600; color: #000000; }
+  .process-step p { color: #333333; }
 
   /* Features/Highlights */
   .features-grid {
@@ -254,8 +257,8 @@
     box-shadow: 0 15px 40px rgba(0,0,0,0.12);
   }
   .feature-card img { width: 70px; margin-bottom: 20px; }
-  .feature-card h3 { margin-bottom: 15px; color: #2c3e50; font-weight: 600; }
-  .feature-card p { color: #7f8c8d; line-height: 1.6; }
+  .feature-card h3 { margin-bottom: 15px; color: #000000; font-weight: 600; }
+  .feature-card p { color: #333333; line-height: 1.6; }
 
   /* FAQ */
   .faq-container { max-width: 800px; margin: 0 auto; }
@@ -268,7 +271,7 @@
   .faq-item button:hover { background: #f8f9fa; }
   .faq-item button::after { content: '+'; font-size: 1.5rem; transition: transform 0.3s; color: #ffd700; }
   .faq-item button.active::after { transform: rotate(45deg); }
-  .faq-answer { display: none; padding: 0 30px 20px 30px; color: #7f8c8d; line-height: 1.6; }
+  .faq-answer { display: none; padding: 0 30px 20px 30px; color: #495057; line-height: 1.6; }
 
   /* Contact Form */
   .contact-container {
@@ -362,7 +365,13 @@
   @media(max-width:768px){
     nav ul { flex-direction: column; gap: 10px; }
     header { flex-direction: column; align-items: flex-start; }
+    section { padding: 50px 20px; }
+    h2.section-title { font-size: 2rem; }
     .process-grid { flex-direction: column; align-items: center; }
+    .solution-card { padding: 30px 20px; flex: 0 0 280px; }
+    .solution-card h3 { font-size: 1.1rem; }
+    .solution-card p { font-size: 0.9rem; }
+    .solution-card img { width: 60px; margin-bottom: 15px; }
   }
 </style>
 </head>
@@ -413,17 +422,17 @@
     <div class="solutions-grid">
       <div class="solution-card">
         <img src="https://img.icons8.com/ios/100/000000/website.png" alt="Web Dev">
-        <h3>Website Development</h3>
+        <h3>Web Dev</h3>
         <p>Create professional websites tailored to your business.</p>
       </div>
       <div class="solution-card">
         <img src="https://img.icons8.com/ios/100/000000/marketing.png" alt="Marketing">
-        <h3>Marketing Solutions</h3>
+        <h3>Marketing</h3>
         <p>Grow your audience with digital marketing strategies.</p>
       </div>
       <div class="solution-card">
         <img src="https://img.icons8.com/ios/100/000000/seo.png" alt="SEO">
-        <h3>SEO Services</h3>
+        <h3>SEO</h3>
         <p>Improve your search rankings and online visibility.</p>
       </div>
       <div class="solution-card">
