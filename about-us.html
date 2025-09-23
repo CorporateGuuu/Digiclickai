@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us - Digiclick AI</title>
+<style>
+  /* General Reset */
+  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+  body { line-height: 1.6; color: #2c3e50; background-color: #ffffff; }
+  html { scroll-behavior: smooth; }
+
+  /* Header */
+  header {
+    background: #ffffff;
+    color: #2c3e50;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    border-bottom: 1px solid #ecf0f1;
+  }
+  .logo h2 { font-size: 1.8rem; font-weight: 700; color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+  nav ul { list-style: none; display: flex; gap: 30px; position: relative; }
+  nav li { position: relative; }
+  nav a { color: #2c3e50; text-decoration: none; font-weight: 500; padding: 5px 0; display: block; transition: all 0.3s; position: relative; }
+  nav a:hover { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+  nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background: #ffd700; transition: width 0.3s; box-shadow: 0 0 10px rgba(255,215,0,0.5); }
+  nav a:hover::after { width: 100%; }
+
+  .cta-btn { background: #ffd700; padding: 12px 25px; border-radius: 25px; color: #000000; text-decoration: none; font-weight: 600; transition: all 0.3s; box-shadow: 0 4px 15px rgba(255,215,0,0.3); border: 2px solid #ffd700; }
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,215,0,0.5); background: #ffffff; }
+
+  /* Page Header */
+  .page-header {
+    background: linear-gradient(135deg, rgba(44,62,80,0.9) 0%, rgba(52,152,219,0.8) 100%), url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+    padding: 100px 50px;
+    text-align: center;
+    color: #ffffff;
+    position: relative;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255,215,0,0.1) 0%, rgba(0,0,0,0.8) 100%);
+  }
+  .page-header-content { position: relative; z-index: 1; }
+  .page-header h1 { font-size: 3.5rem; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); font-weight: 700; color: #ffd700; }
+  .page-header p { font-size: 1.4rem; margin-bottom: 0; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); max-width: 600px; margin-left: auto; margin-right: auto; }
+
+  /* About Sections */
+  .about-section { padding: 80px 50px; }
+  .about-section:nth-child(even) { background: #f8f9fa; }
+
+  .section-content { max-width: 1200px; margin: 0 auto; }
+  .section-header { text-align: center; margin-bottom: 60px; }
+  .section-header h2 { font-size: 2.5rem; color: #2c3e50; margin-bottom: 20px; font-weight: 700; }
+  .section-header p { font-size: 1.2rem; color: #7f8c8d; max-width: 600px; margin: 0 auto; }
+
+  /* Mission & Vision */
+  .mission-vision { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 50px; margin-bottom: 60px; }
+  .mission-card, .vision-card {
+    background: #ffffff;
+    padding: 50px 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border: 2px solid #f8f9fa;
+    transition: all 0.3s ease;
+  }
+  .mission-card:hover, .vision-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    border-color: #ffd700;
+  }
+  .mission-card h3, .vision-card h3 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+  .mission-card::before { content: '🎯'; font-size: 3rem; margin-bottom: 20px; display: block; }
+  .vision-card::before { content: '🔭'; font-size: 3rem; margin-bottom: 20px; display: block; }
+
+  /* Team Section */
+  .team-section { padding: 80px 50px; background: #ffffff; }
+  .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; }
+
+  .team-member {
+    background: #f8f9fa;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border: 2px solid #ecf0f1;
+  }
+  .team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    border-color: #ffd700;
+  }
+
+  .member-image {
+    height: 250px;
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+  }
+
+  .member-info { padding: 30px; text-align: center; }
+  .member-name { font-size: 1.4rem; color: #2c3e50; margin-bottom: 8px; font-weight: 700; }
+  .member-role { font-size: 1rem; color: #ffd700; margin-bottom: 15px; font-weight: 600; }
+  .member-bio { color: #7f8c8d; line-height: 1.6; font-size: 0.95rem; }
+
+  /* Values Section */
+  .values-section { padding: 80px 50px; background: #f8f9fa; }
+  .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; }
+
+  .value-item {
+    text-align: center;
+    padding: 40px 20px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+    border: 2px solid #f8f9fa;
+    transition: all 0.3s ease;
+  }
+  .value-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-color: #ffd700;
+  }
+  .value-icon { font-size: 3rem; margin-bottom: 20px; display: block; }
+  .value-title { font-size: 1.3rem; color: #2c3e50; margin-bottom: 15px; font-weight: 700; }
+  .value-description { color: #7f8c8d; line-height: 1.6; }
+
+  /* Stats Section */
+  .stats-section {
+    background: #ffffff;
+    padding: 80px 50px;
+    text-align: center;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .stat-item {
+    padding: 30px;
+  }
+  .stat-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #ffd700;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(255,215,0,0.3);
+  }
+  .stat-label {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    font-weight: 600;
+  }
+
+  /* Timeline Section */
+  .timeline-section { padding: 80px 50px; background: #f8f9fa; }
+  .timeline { position: relative; max-width: 800px; margin: 0 auto; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #ffd700;
+    transform: translateX(-50%);
+  }
+
+  .timeline-item {
+    background: #ffffff;
+    margin: 20px 0;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    position: relative;
+    width: calc(50% - 30px);
+  }
+  .timeline-item:nth-child(even) { margin-left: calc(50% + 30px); }
+  .timeline-item:nth-child(odd) { margin-right: calc(50% + 30px); }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    width: 20px;
+    height: 20px;
+    background: #ffd700;
+    border-radius: 50%;
+    border: 4px solid #ffffff;
+    box-shadow: 0 0 10px rgba(255,215,0,0.5);
+  }
+  .timeline-item:nth-child(even)::before { right: -40px; }
+  .timeline-item:nth-child(odd)::before { left: -40px; }
+
+  .timeline-year { font-size: 1.5rem; color: #ffd700; font-weight: 700; margin-bottom: 10px; }
+  .timeline-title { font-size: 1.2rem; color: #2c3e50; font-weight: 600; margin-bottom: 10px; }
+  .timeline-description { color: #7f8c8d; line-height: 1.6; }
+
+  /* Footer */
+  footer {
+    background: linear-gradient(135deg, #333 0%, #111 100%);
+    color: white;
+    padding: 60px 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .footer-section { flex: 1 1 250px; margin-bottom: 30px; }
+  .footer-section h4 { margin-bottom: 20px; font-size: 1.2rem; font-weight: 600; }
+  .footer-section ul { list-style: none; }
+  .footer-section a { color: #ccc; text-decoration: none; transition: color 0.3s; }
+  .footer-section a:hover { color: #ffd700; }
+
+  /* Responsive */
+  @media(max-width:768px){
+    nav ul { flex-direction: column; gap: 10px; }
+    header { flex-direction: column; align-items: flex-start; }
+    .mission-vision { grid-template-columns: 1fr; }
+    .team-grid { grid-template-columns: 1fr; }
+    .values-grid { grid-template-columns: repeat(2, 1fr); }
+    .timeline::before { left: 20px; }
+    .timeline-item { width: calc(100% - 60px); margin-left: 60px !important; margin-right: 0 !important; }
+    .timeline-item::before { left: -40px !important; right: auto !important; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo"><h2>Digiclick AI</h2></div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#solutions">Solutions</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <a href="index.html#contact" class="cta-btn">Book a Demo</a>
+  </header>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-content">
+      <h1>About Digiclick AI</h1>
+      <p>Transforming businesses through innovative web development and digital solutions</p>
+    </div>
+  </div>
+
+  <!-- Mission & Vision -->
+  <section class="about-section">
+    <div class="section-content">
+      <div class="section-header">
+        <h2>Our Story</h2>
+        <p>Founded with a vision to bridge the gap between technology and business success</p>
+      </div>
+
+      <div class="mission-vision">
+        <div class="mission-card">
+          <h3>Our Mission</h3>
+          <p>To empower businesses of all sizes with cutting-edge web development solutions that drive growth, enhance user experiences, and create lasting digital success.</p>
+        </div>
+        <div class="vision-card">
+          <h3>Our Vision</h3>
+          <p>To be the leading digital transformation partner, setting new standards in web development excellence and helping businesses thrive in the digital age.</p>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <p>Digiclick AI was born from a simple yet powerful idea: every business deserves access to world-class digital solutions. Our journey began when our founders recognized that many businesses were struggling to establish a strong online presence due to complex technical barriers and high costs.</p>
+
+        <p>With over 5 years of combined experience in web development, digital marketing, and business strategy, our team set out to democratize access to premium digital services. We believe that technology should empower, not complicate, business growth.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="team-section">
+    <div class="section-content">
+      <div class="section-header">
+        <h2>Meet Our Team</h2>
+        <p>The creative minds behind your digital success</p>
+      </div>
+
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="member-image">👨‍💻</div>
+          <div class="member-info">
+            <h3 class="member-name">Alex Johnson</h3>
+            <p class="member-role">CEO & Lead Developer</p>
+            <p class="member-bio">Full-stack developer with 8+ years of experience in modern web technologies and digital strategy.</p>
+          </div>
+        </div>
+
+        <div class="team-member">
+          <div class="member-image">👩‍🎨</div>
+          <div class="member-info">
+            <h3 class="member-name">Sarah Chen</h3>
+            <p class="member-role">UI/UX Designer</p>
+            <p class="member-bio">Creative designer specializing in user-centered design and intuitive digital experiences.</p>
+          </div>
+        </div>
+
+        <div class="team-member">
+          <div class="member-image">🚀</div>
+          <div class="member-info">
+            <h3 class="member-name">Marcus Rodriguez</h3>
+            <p class="member-role">Technical Lead</p>
+            <p class="member-bio">Backend specialist with expertise in scalable architectures and cloud technologies.</p>
+          </div>
+        </div>
+
+        <div class="team-member">
+          <div class="member-image">📈</div>
+          <div class="member-info">
+            <h3 class="member-name">Emily Davis</h3>
+            <p class="member-role">Digital Marketing Specialist</p>
+            <p class="member-bio">SEO and digital marketing expert helping businesses grow their online presence.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class="values-section">
+    <div class="section-content">
+      <div class="section-header">
+        <h2>Our Values</h2>
+        <p>The principles that guide everything we do</p>
+      </div>
+
+      <div class="values-grid">
+        <div class="value-item">
+          <span class="value-icon">💡</span>
+          <h3 class="value-title">Innovation</h3>
+          <p class="value-description">We embrace cutting-edge technologies and creative solutions to solve complex challenges.</p>
+        </div>
+
+        <div class="value-item">
+          <span class="value-icon">🤝</span>
+          <h3 class="value-title">Collaboration</h3>
+          <p class="value-description">We work closely with our clients as partners, ensuring their vision becomes reality.</p>
+        </div>
+
+        <div class="value-item">
+          <span class="value-icon">🎯</span>
+          <h3 class="value-title">Excellence</h3>
+          <p class="value-description">We strive for perfection in every project, delivering exceptional quality and results.</p>
+        </div>
+
+        <div class="value-item">
+          <span class="value-icon">🌱</span>
+          <h3 class="value-title">Growth</h3>
+          <p class="value-description">We are committed to continuous learning and helping our clients achieve sustainable growth.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">50+</div>
+        <div class="stat-label">Projects Completed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">98%</div>
+        <div class="stat-label">Client Satisfaction</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Support Available</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">5+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline Section -->
+  <section class="timeline-section">
+    <div class="section-content">
+      <div class="section-header">
+        <h2>Our Journey</h2>
+        <p>Key milestones in our growth and success</p>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">2020</div>
+          <h3 class="timeline-title">Company Founded</h3>
+          <p class="timeline-description">Digiclick AI was established with a mission to make professional web development accessible to businesses of all sizes.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-year">2021</div>
+          <h3 class="timeline-title">First Major Client</h3>
+          <p class="timeline-description">Successfully delivered our first enterprise-level e-commerce platform, establishing our reputation for quality.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-year">2022</div>
+          <h3 class="timeline-title">Team Expansion</h3>
+          <p class="timeline-description">Grew our team to include specialized roles in design, development, and digital marketing.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-year">2023</div>
+          <h3 class="timeline-title">50+ Projects Milestone</h3>
+          <p class="timeline-description">Reached our 50th completed project, serving clients across various industries and business sizes.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-year">2024</div>
+          <h3 class="timeline-title">Innovation Focus</h3>
+          <p class="timeline-description">Launched our AI-powered development approach, combining human expertise with cutting-edge technology.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-year">2025</div>
+          <h3 class="timeline-title">Future Forward</h3>
+          <p class="timeline-description">Continuing to innovate and help businesses thrive in the ever-evolving digital landscape.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-section">
+      <h4>Locations</h4>
+      <ul>
+        <li>Washington, DC</li>
+        <li>McLean, VA</li>
+        <li>Atlanta, GA</li>
+        <li>Raleigh, NC</li>
+        <li>Nashville, TN</li>
+        <li>Las Vegas, NV</li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Follow Us</h4>
+      <ul>
+        <li><a href="https://www.instagram.com/digiclickai/">Instagram</a></li>
+        <li><a href="#">LinkedIn</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="projects.html">Our Projects</a></li>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="terms-of-use.html">Terms of Use</a></li>
+      </ul>
+    </div>
+  </footer>
+
+</body>
+</html>
