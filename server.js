@@ -7,6 +7,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const demoRoutes = require('./routes/demo');
 const contactRoutes = require('./routes/contact');
+const paymentRoutes = require('./routes/payments');
 
 const app = express();
 
@@ -30,6 +31,7 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use('/api/auth', authRoutes);
 app.use('/api/demo', demoRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/payments', paymentRoutes);
 
 // Serve index.html for root route
 app.get('/', (req, res) => {

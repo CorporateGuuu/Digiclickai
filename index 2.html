@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Digiclick AI - AI-powered web and mobile solutions to grow your business.">
+    <title>Digiclick AI - Create. Manage. Automate. Grow.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+    </script>
+</head>
+<body class="bg-white text-gray-900">
+    <!-- Navigation -->
+    <nav class="bg-blue-700 text-white fixed top-0 w-full z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold">Digiclick AI</h1>
+            <button id="hamburger" type="button" aria-label="Toggle navigation menu" class="md:hidden text-white focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+            <ul class="hidden md:flex space-x-8 text-lg">
+                <li><a href="index.html" class="text-orange-400 font-semibold">Home</a></li>
+                <li><a href="solutions.html" class="hover:text-orange-400 transition-colors">Solutions</a></li>
+                <li><a href="projects.html" class="hover:text-orange-400 transition-colors">Projects</a></li>
+                <li><a href="pricing.html" class="hover:text-orange-400 transition-colors">Pricing</a></li>
+                <li><a href="about.html" class="hover:text-orange-400 transition-colors">About</a></li>
+                <li><a href="contact.html" class="hover:text-orange-400 transition-colors">Contact</a></li>
+                <li><a href="blog.html" class="hover:text-orange-400 transition-colors">Blog</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-drawer" class="fixed top-0 right-0 h-full w-64 bg-blue-700 text-white transform translate-x-full transition-transform duration-300 z-50">
+        <div class="flex justify-end p-4">
+            <button id="close-drawer" type="button" aria-label="Close navigation menu" class="text-white focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <ul class="flex flex-col space-y-4 p-4 text-lg">
+            <li><a href="index.html" class="text-orange-400 font-semibold">Home</a></li>
+            <li><a href="solutions.html" class="hover:text-orange-400 transition-colors">Solutions</a></li>
+            <li><a href="projects.html" class="hover:text-orange-400 transition-colors">Projects</a></li>
+            <li><a href="pricing.html" class="hover:text-orange-400 transition-colors">Pricing</a></li>
+            <li><a href="about.html" class="hover:text-orange-400 transition-colors">About</a></li>
+            <li><a href="contact.html" class="hover:text-orange-400 transition-colors">Contact</a></li>
+            <li><a href="blog.html" class="hover:text-orange-400 transition-colors">Blog</a></li>
+        </ul>
+    </div>
+
+
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero text-white py-32 section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-start">
+            <div class="pulse">
+                <h1 class="text-6xl font-extrabold mb-6 text-left">Create. Manage. Automate. Grow.</h1>
+            </div>
+            <h5 class="text-sm font-semibold text-yellow-300 mb-4 text-center w-full">EST 2023</h5>
+            <h3 class="text-lg font-semibold text-left mb-6">
+                <span>DIGICLICK AI®</span> <span>HELPING </span><strong>BUSINESSES</strong> <strong>CREATE, MANAGE, AND AUTOMATE DIGITAL PRODUCTS AND SERVICES.</strong>
+            </h3>
+            <a href="contact.html" class="dmButtonLink inline-flex items-center px-6 py-3 rounded-xl text-white font-semibold text-center">
+                <span class="icon-star mr-2 text-yellow-300">★</span>
+                <span>Book a demo →</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50 section">
+        <div class="max-w-7xl mx-auto">
+            <h3 class="text-4xl font-extrabold mb-8 text-blue-700">Website Management</h3>
+            <h4 class="text-2xl font-semibold mb-4 text-gray-900">SEO - Rank Higher</h4>
+            <p class="text-lg mb-4 uppercase text-gray-500 tracking-wide">CLIENTS</p>
+            <p class="text-xl font-medium italic text-gray-800">Smarter websites that will help you generate revenue!</p>
+        </div>
+    </section>
+
+    <!-- Demo Request Section -->
+    <section id="demo" class="py-24 px-4 sm:px-6 lg:px-8 bg-white section">
+        <div class="max-w-7xl mx-auto">
+            <h4 class="text-3xl font-extrabold mb-6 text-blue-700">Request a Demo</h4>
+            <p class="text-lg mb-4 text-gray-600">Fill out the form to schedule an initial meeting with us. We'll demonstrate how our AI-driven solutions can bring your vision to life.</p>
+            <p class="text-lg mb-4 text-gray-600">We ensure everything aligns perfectly with your vision and business goals.</p>
+            <p class="text-lg font-medium mb-6 text-gray-800">Customize your plan, design, & build</p>
+            <h4 class="text-3xl font-extrabold mb-6 text-blue-700">Go Live & Start Generating Revenue</h4>
+            <p class="text-lg mb-8 text-gray-600">Once your site goes live, we offer ongoing AI-powered support and maintenance to keep your website updated and running smoothly. Ready to get started? Fill out the form to schedule a demo.</p>
+            <div class="max-w-lg mx-auto">
+                <form id="demoForm">
+                    <input type="text" id="name" placeholder="Your Name" class="w-full p-4 mb-4 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-700" required>
+                    <input type="email" id="email" placeholder="Your Email" class="w-full p-4 mb-4 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-700" required>
+                    <textarea id="message" placeholder="Your Message" rows="5" class="w-full p-4 mb-4 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-700" required></textarea>
+                    <button type="submit" class="dmButtonLink w-full px-6 py-4 rounded-xl text-white font-semibold text-center">Schedule Demo</button>
+                </form>
+                <div id="formMessage" class="mt-4 text-center"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- UX/UI Statement -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 text-center section">
+        <p class="text-xl font-medium italic max-w-7xl mx-auto text-gray-800">We build AI-powered UX & UI websites that will help you generate revenue!</p>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-24 px-4 sm:px-6 lg:px-8 bg-white section">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="card p-8 bg-gray-50 rounded-xl shadow-lg">
+                <span class="text-3xl font-extrabold text-blue-700">[01]</span>
+                <h4 class="text-xl font-semibold mb-3 text-gray-900">AI-Driven Marketing Tools</h4>
+                <p class="text-lg text-gray-600">Recovery of abandoned carts with AI analytics+</p>
+            </div>
+            <div class="card p-8 bg-gray-50 rounded-xl shadow-lg">
+                <span class="text-3xl font-extrabold text-blue-700">[02]</span>
+                <h4 class="text-xl font-semibold mb-3 text-gray-900">Real-time Insights</h4>
+            </div>
+            <div class="card p-8 bg-gray-50 rounded-xl shadow-lg">
+                <span class="text-3xl font-extrabold text-blue-700">[03]</span>
+                <h4 class="text-xl font-semibold mb-3 text-gray-900">Integration</h4>
+                <p class="text-lg text-gray-600">Connect website to feed social accounts</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQs Section -->
+    <section id="faqs" class="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50 section">
+        <div class="max-w-7xl mx-auto">
+            <h3 class="text-4xl font-extrabold mb-10 text-blue-700">Frequently Asked Questions</h3>
+            <ul class="space-y-6">
+                <li class="faq-item p-6 bg-white rounded-xl shadow-lg">
+                    <strong class="text-lg text-gray-900">What types of websites do you build?</strong>
+                    <p class="faq-answer active text-gray-600 mt-2">We create everything from simple landing pages and business websites to full e-commerce stores and AI-integrated platforms—customized to fit your brand and goals.</p>
+                </li>
+                <li class="faq-item p-6 bg-white rounded-xl shadow-lg">
+                    <strong class="text-lg text-gray-900">How long does it take to complete a website?</strong>
+                    <p class="faq-answer text-gray-600 mt-2">Project timelines vary based on complexity, but most websites are completed within 2–6 weeks.</p>
+                </li>
+                <li class="faq-item p-6 bg-white rounded-xl shadow-lg">
+                    <strong class="text-lg text-gray-900">Do you offer ongoing maintenance and support?</strong>
+                    <p class="faq-answer text-gray-600 mt-2">Yes! We offer monthly support plans for updates, backups, SEO, and general maintenance.</p>
+                </li>
+                <li class="faq-item p-6 bg-white rounded-xl shadow-lg">
+                    <strong class="text-lg text-gray-900">Can you help with SEO and online visibility?</strong>
+                    <p class="faq-answer text-gray-600 mt-2">Absolutely. We include basic SEO with every site and offer advanced AI-driven SEO and digital marketing packages to help you rank and convert.</p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-24 px-4 sm:px-6 lg:px-8 bg-white section">
+        <div class="max-w-7xl mx-auto">
+            <article class="card mb-8 p-8 bg-gray-50 rounded-xl shadow-lg">
+                <h4 class="text-xl font-semibold mb-3 text-blue-700">Web & AI Solutions in Alexandria, VA</h4>
+                <p class="text-lg mb-3 text-gray-600">Alexandria is a blend of historic charm and modern entrepreneurship. Whether you run a boutique in Old Town or a service-based business in West End, Digiclick AI provides top-tier web and AI solutions that help your business grow.</p>
+                <p class="text-sm text-gray-500">By Digiclick AI • May 28, 2025</p>
+            </article>
+            <article class="card mb-8 p-8 bg-gray-50 rounded-xl shadow-lg">
+                <h4 class="text-xl font-semibold mb-3 text-blue-700">Affordable and Custom Web Design in Falls Church, VA</h4>
+                <p class="text-lg mb-3 text-gray-600">Falls Church is one of Northern Virginia’s most vibrant and growing areas. Whether you’re a small business owner, entrepreneur, or local organization, having a standout website is critical. Digiclick AI is proud to serve Falls Church with custom, affordable web design services.</p>
+                <p class="text-sm text-gray-500">By Digiclick AI • May 28, 2025</p>
+            </article>
+            <article class="card mb-8 p-8 bg-gray-50 rounded-xl shadow-lg">
+                <h4 class="text-xl font-semibold mb-3 text-blue-700">Why DC Businesses Trust Digiclick AI for Web & AI Development</h4>
+                <p class="text-lg mb-3 text-gray-600">Washington DC is a hub for innovation, government, startups, and nonprofits—all needing top-notch digital experiences. That’s where Digiclick AI comes in. We provide full-service web and AI development to help DC-based businesses thrive online.</p>
+                <p class="text-sm text-gray-500">By Digiclick AI • May 28, 2025</p>
+            </article>
+            <a href="blog.html" class="dmButtonLink inline-flex items-center px-6 py-3 rounded-xl text-white font-semibold">Show More</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-700 text-white py-10 text-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-lg mb-4">&copy; 2025 Digiclick AI. All rights reserved.</p>
+            <div class="contact-cta card p-6 bg-white text-gray-900 rounded-xl shadow-lg">
+                <h4 class="text-xl font-semibold mb-4 text-blue-700">Get in Touch</h4>
+                <p class="text-lg mb-4 text-gray-600">Ready to elevate your business with AI-powered solutions? Contact us today!</p>
+                <a href="contact.html" class="dmButtonLink inline-flex items-center px-6 py-3 rounded-xl text-white font-semibold">
+                    <span class="icon-star mr-2 text-yellow-300">★</span>
+                    <span>Contact Us</span>
+                </a>
+                <div class="mt-4 flex justify-center space-x-4">
+                    <a href="https://twitter.com" target="_blank" rel="noopener" class="text-blue-700 hover:text-orange-400 transition-colors" title="Follow us on Twitter">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.643 4.937c-.835.37-1.732.62-2.675.733a4.67 4.67 0 002.048-2.578 9.3 9.3 0 01-2.958 1.13 4.66 4.66 0 00-7.938 4.25 13.229 13.229 0 01-9.602-4.868c-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878a4.647 4.647 0 01-2.11-.583v.06c0 2.257 1.605 4.138 3.737 4.566a4.68 4.68 0 01-2.103.08c.592 1.848 2.313 3.192 4.356 3.228a9.337 9.337 0 01-5.766 1.987c-.374 0-.743-.022-1.106-.065a13.19 13.19 0 007.14 2.093c8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.401-.014-.602a9.47 9.47 0 002.323-2.41z"/></svg>
+                    </a>
+                    <a href="https://facebook.com" target="_blank" rel="noopener" class="text-blue-700 hover:text-orange-400 transition-colors" title="Follow us on Facebook">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.731 0 1.325-.593 1.325-1.325V1.325C24 .593 23.407 0 22.675 0z"/></svg>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener" class="text-blue-700 hover:text-orange-400 transition-colors" title="Connect with us on LinkedIn">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const answer = item.querySelector('.faq-answer');
+                answer.classList.toggle('active');
+            });
+        });
+
+        // Show More button (placeholder)
+        document.querySelectorAll('.show-more').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Load more blog posts (implement with AJAX or CMS)');
+            });
+        });
+
+        // Section animations on scroll
+        const sections = document.querySelectorAll('.section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+        sections.forEach(section => observer.observe(section));
+
+        // Mobile drawer toggle
+        const hamburger = document.getElementById('hamburger');
+        const drawer = document.getElementById('mobile-drawer');
+
+        const closeDrawer = document.getElementById('close-drawer');
+
+        hamburger.addEventListener('click', () => {
+            drawer.classList.toggle('translate-x-full');
+        });
+
+        closeDrawer.addEventListener('click', () => {
+            drawer.classList.add('translate-x-full');
+        });
+
+
+
+        // Handle demo form submission
+        document.getElementById('demoForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            const formMessage = document.getElementById('formMessage');
+
+            try {
+                const response = await fetch('/api/demo/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, message }),
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    formMessage.innerHTML = '<p class="text-green-600">Demo request submitted successfully!</p>';
+                    document.getElementById('demoForm').reset();
+                } else {
+                    formMessage.innerHTML = `<p class="text-red-600">${data.message}</p>`;
+                }
+            } catch (error) {
+                formMessage.innerHTML = '<p class="text-red-600">An error occurred. Please try again.</p>';
+            }
+        });
+    </script>
+</body>
+</html>

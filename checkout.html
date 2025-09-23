@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Checkout - Enterprise Plan - Digiclick AI</title>
+<script src="https://js.stripe.com/v3/"></script>
 <style>
   /* General Reset */
   * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -468,6 +469,67 @@
   </footer>
 
   <script>
+    // Initialize Stripe
+    const stripe = Stripe('pk_live_51RTmYkRx3fwBLMJmgcMkHVlzxSyJmzpQKC1544i1x5w4PHumNalgnDABvo4vRKvU7dklT1Ad2sHmouUCUl1jTOsQ00XGMsFGtv');
+    const elements = stripe.elements();
+
+    // Create card elements
+    const cardNumber = elements.create('cardNumber');
+    const cardExpiry = elements.create('cardExpiry');
+    const cardCvc = elements.create('cardCvc');
+
+    // Mount elements to the form
+    cardNumber.mount('#cardNumber');
+    cardExpiry.mount('#expiryDate');
+    cardCvc.mount('#cvv');
+
+    // Style the elements
+    const style = {
+      base: {
+        fontSize: '16px',
+        color: '#2c3e50',
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        '::placeholder': {
+          color: '#95a5a6',
+        },
+      },
+      invalid: {
+        color: '#e74c3c',
+      },
+    };
+
+    cardNumber.update({ style });
+    cardExpiry.update({ style });
+    cardCvc.update({ style });
+
+    // Handle real-time validation errors
+    cardNumber.addEventListener('change', function(event) {
+      const displayError = document.getElementById('card-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+
+    cardExpiry.addEventListener('change', function(event) {
+      const displayError = document.getElementById('card-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+
+    cardCvc.addEventListener('change', function(event) {
+      const displayError = document.getElementById('card-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+
     // Payment method selection
     const paymentMethods = document.querySelectorAll('.payment-method');
     paymentMethods.forEach(method => {
@@ -478,12 +540,12 @@
     });
 
     // Process payment function
-    function processPayment() {
+    async function processPayment() {
       const button = document.querySelector('.checkout-button');
       const originalText = button.textContent;
 
       // Basic form validation
-      const requiredFields = ['firstName', 'lastName', 'email', 'company', 'cardNumber', 'expiryDate', 'cvv', 'cardName'];
+      const requiredFields = ['firstName', 'lastName', 'email', 'company', 'cardName'];
       let isValid = true;
 
       requiredFields.forEach(fieldId => {
@@ -501,35 +563,80 @@
         return;
       }
 
-      // Simulate payment processing
+      // Disable button and show processing
       button.disabled = true;
       button.textContent = 'Processing Payment...';
 
-      setTimeout(() => {
-        // Simulate random payment failure (for demo purposes)
-        const paymentSuccess = Math.random() > 0.3; // 70% success rate
+      try {
+        // Create payment intent
+        const response = await fetch('/api/payments/create-payment-intent', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            amount: 2999,
+            currency: 'usd',
+            metadata: {
+              customer_email: document.getElementById('email').value,
+              customer_name: `${document.getElementById('firstName').value} ${document.getElementById('lastName').value}`,
+              company: document.getElementById('company').value,
+              project_details: document.getElementById('projectDetails').value,
+            }
+          }),
+        });
 
-        if (paymentSuccess) {
-          button.textContent = 'Payment Successful!';
-          button.style.background = '#27ae60';
+        const { clientSecret, error } = await response.json();
 
-          setTimeout(() => {
-            alert('Thank you for your purchase! You will receive a confirmation email shortly with next steps.');
-            window.location.href = 'index.html';
-          }, 1000);
-        } else {
-          button.textContent = 'Payment Failed';
-          button.style.background = '#e74c3c';
-          button.disabled = false;
-
-          setTimeout(() => {
-            alert('Payment failed. Please check your payment details and try again. If the problem persists, contact our support team.');
-            button.textContent = 'Try Again - $2,999';
-            button.style.background = 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)';
-          }, 1000);
+        if (error) {
+          throw new Error(error);
         }
-      }, 2000);
+
+        // Confirm the payment
+        const { error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: cardNumber,
+            billing_details: {
+              name: document.getElementById('cardName').value,
+              email: document.getElementById('email').value,
+            },
+          },
+        });
+
+        if (confirmError) {
+          throw new Error(confirmError.message);
+        }
+
+        // Payment successful
+        button.textContent = 'Payment Successful!';
+        button.style.background = '#27ae60';
+
+        setTimeout(() => {
+          alert('Thank you for your purchase! You will receive a confirmation email shortly with next steps.');
+          window.location.href = 'index.html';
+        }, 1000);
+
+      } catch (error) {
+        console.error('Payment error:', error);
+        button.textContent = 'Payment Failed';
+        button.style.background = '#e74c3c';
+        button.disabled = false;
+
+        setTimeout(() => {
+          alert(`Payment failed: ${error.message}. Please check your payment details and try again.`);
+          button.textContent = 'Try Again - $2,999';
+          button.style.background = 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)';
+        }, 1000);
+      }
     }
+
+    // Add error display element
+    const errorDiv = document.createElement('div');
+    errorDiv.id = 'card-errors';
+    errorDiv.style.color = '#e74c3c';
+    errorDiv.style.fontSize = '0.9rem';
+    errorDiv.style.marginTop = '10px';
+    document.getElementById('creditCardForm').appendChild(errorDiv);
   </script>
 
 </body>

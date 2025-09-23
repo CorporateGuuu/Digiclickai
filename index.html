@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Digiclick AI</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <style>
   /* General Reset */
   * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -559,6 +561,136 @@
   </footer>
 
   <script>
+    // Register ScrollTrigger plugin
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Parallax effect for hero background
+    gsap.to("#hero", {
+      backgroundPosition: "50% 100px",
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#hero",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+    // Hero content animations
+    gsap.from(".hero-content h1", {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      delay: 0.2
+    });
+
+    gsap.from(".hero-content p", {
+      opacity: 0,
+      y: 30,
+      duration: 1,
+      delay: 0.5
+    });
+
+    gsap.from(".btn-secondary", {
+      opacity: 0,
+      y: 30,
+      duration: 1,
+      delay: 0.8
+    });
+
+    // Section title animations
+    gsap.utils.toArray("h2.section-title").forEach(title => {
+      gsap.from(title, {
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: title,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      });
+    });
+
+    // Solutions cards animation
+    gsap.from(".solution-card", {
+      opacity: 0,
+      y: 50,
+      duration: 0.8,
+      stagger: 0.2,
+      scrollTrigger: {
+        trigger: "#solutions .solutions-grid",
+        start: "top 80%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    // Process steps animation
+    gsap.from(".process-step", {
+      opacity: 0,
+      y: 50,
+      duration: 0.8,
+      stagger: 0.2,
+      scrollTrigger: {
+        trigger: "#process .process-grid",
+        start: "top 80%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    // Features cards animation
+    gsap.from(".feature-card", {
+      opacity: 0,
+      scale: 0.8,
+      duration: 0.8,
+      stagger: 0.2,
+      scrollTrigger: {
+        trigger: "#features .features-grid",
+        start: "top 80%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    // FAQ items animation
+    gsap.from(".faq-item", {
+      opacity: 0,
+      x: -50,
+      duration: 0.8,
+      stagger: 0.1,
+      scrollTrigger: {
+        trigger: "#faq .faq-container",
+        start: "top 80%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    // Contact form animation
+    gsap.from(".contact-container", {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      scrollTrigger: {
+        trigger: "#contact",
+        start: "top 80%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    // Lazy loading for images
+    const images = document.querySelectorAll('img[data-src]');
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          img.classList.remove('lazy');
+          observer.unobserve(img);
+        }
+      });
+    });
+
+    images.forEach(img => imageObserver.observe(img));
+
     // FAQ accordion functionality
     const faqButtons = document.querySelectorAll('.faq-item button');
     faqButtons.forEach(btn => {
@@ -569,6 +701,16 @@
         btn.classList.toggle('active', !isOpen);
       });
     });
+
+    // Mobile animation check
+    function isMobile() {
+      return window.innerWidth <= 768;
+    }
+
+    // Disable animations on mobile for performance
+    if (isMobile()) {
+      ScrollTrigger.config({ limitCallbacks: true });
+    }
   </script>
 </body>
 </html>
