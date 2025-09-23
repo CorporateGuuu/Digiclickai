@@ -26,7 +26,7 @@
     box-shadow: 0 2px 20px rgba(0,0,0,0.08);
     border-bottom: 1px solid #ecf0f1;
   }
-  .logo h2 { font-size: 1.8rem; font-weight: 700; color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+  .logo img { height: 50px; width: auto; }
   nav ul { list-style: none; display: flex; gap: 30px; position: relative; }
   nav li { position: relative; }
   nav a { color: #2c3e50; text-decoration: none; font-weight: 500; padding: 5px 0; display: block; transition: all 0.3s; position: relative; }
@@ -52,6 +52,23 @@
 
   .cta-btn { background: #ffd700; padding: 12px 25px; border-radius: 25px; color: #000000; text-decoration: none; font-weight: 600; transition: all 0.3s; box-shadow: 0 4px 15px rgba(255,215,0,0.3); border: 2px solid #ffd700; }
   .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,215,0,0.5); background: #ffffff; }
+
+  /* Hamburger Menu */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+  }
+  .hamburger span {
+    width: 25px;
+    height: 3px;
+    background: #2c3e50;
+    transition: all 0.3s;
+  }
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
 
   /* Hero */
   #hero {
@@ -363,8 +380,11 @@
 
   /* Responsive */
   @media(max-width:768px){
-    nav ul { flex-direction: column; gap: 10px; }
-    header { flex-direction: column; align-items: flex-start; }
+    .hamburger { display: flex; }
+    nav { display: none; }
+    nav.active { display: block; position: absolute; top: 100%; left: 0; width: 100%; background: #ffffff; box-shadow: 0 5px 25px rgba(0,0,0,0.1); padding: 20px; }
+    nav ul { flex-direction: column; gap: 15px; }
+    header { flex-direction: row; justify-content: space-between; }
     section { padding: 50px 20px; }
     h2.section-title { font-size: 2rem; }
     .process-grid { flex-direction: column; align-items: center; }
@@ -379,8 +399,10 @@
 
   <!-- Header -->
   <header>
-    <div class="logo"><h2>Digiclick AI</h2></div>
-    <nav>
+    <div class="logo">
+      <img src="logo.jpg" alt="Digiclick AI">
+    </div>
+    <nav id="nav-menu">
       <ul>
         <li><a href="#hero">Home</a></li>
         <li>
@@ -405,6 +427,11 @@
       </ul>
     </nav>
     <a href="contact.html" class="cta-btn">Book a Demo</a>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </header>
 
   <!-- Hero -->
@@ -720,6 +747,15 @@
     if (isMobile()) {
       ScrollTrigger.config({ limitCallbacks: true });
     }
+
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav-menu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      nav.classList.toggle('active');
+    });
   </script>
 </body>
 </html>
