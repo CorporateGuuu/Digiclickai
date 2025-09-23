@@ -1,62 +1,433 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Digiclick AI - Affordable website plans for your business.">
-    <title>Digiclick AI - Pricing</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing - Digiclick AI</title>
+<style>
+  /* General Reset */
+  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+  body { line-height: 1.6; color: #2c3e50; background-color: #ffffff; }
+  html { scroll-behavior: smooth; }
+
+  /* Header */
+  header {
+    background: #ffffff;
+    color: #2c3e50;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    border-bottom: 1px solid #ecf0f1;
+  }
+  .logo h2 { font-size: 1.8rem; font-weight: 700; color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+  nav ul { list-style: none; display: flex; gap: 30px; position: relative; }
+  nav li { position: relative; }
+  nav a { color: #2c3e50; text-decoration: none; font-weight: 500; padding: 5px 0; display: block; transition: all 0.3s; position: relative; }
+  nav a:hover { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+  nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background: #ffd700; transition: width 0.3s; box-shadow: 0 0 10px rgba(255,215,0,0.5); }
+  nav a:hover::after { width: 100%; }
+
+  .cta-btn { background: #ffd700; padding: 12px 25px; border-radius: 25px; color: #000000; text-decoration: none; font-weight: 600; transition: all 0.3s; box-shadow: 0 4px 15px rgba(255,215,0,0.3); border: 2px solid #ffd700; }
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,215,0,0.5); background: #ffffff; }
+
+  /* Page Header */
+  .page-header {
+    background: linear-gradient(135deg, rgba(44,62,80,0.9) 0%, rgba(52,152,219,0.8) 100%), url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+    padding: 100px 50px;
+    text-align: center;
+    color: #ffffff;
+    position: relative;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255,215,0,0.1) 0%, rgba(0,0,0,0.8) 100%);
+  }
+  .page-header-content { position: relative; z-index: 1; }
+  .page-header h1 { font-size: 3.5rem; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); font-weight: 700; color: #ffd700; }
+  .page-header p { font-size: 1.4rem; margin-bottom: 0; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); max-width: 600px; margin-left: auto; margin-right: auto; }
+
+  /* Pricing Section */
+  .pricing-section { padding: 80px 50px; background: #f8f9fa; }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .pricing-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border: 2px solid #f8f9fa;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+  }
+  .pricing-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ffd700, #ffed4e);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  .pricing-card:hover::before { transform: scaleX(1); }
+  .pricing-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15), 0 0 30px rgba(255,215,0,0.1);
+    border-color: #ffd700;
+  }
+
+  .pricing-card.popular {
+    border-color: #ffd700;
+    box-shadow: 0 15px 40px rgba(255,215,0,0.2);
+  }
+  .pricing-card.popular::before { transform: scaleX(1); }
+
+  .popular-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffd700;
+    color: #000000;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(255,215,0,0.3);
+  }
+
+  .pricing-header { margin-bottom: 30px; }
+  .pricing-title { font-size: 1.8rem; color: #2c3e50; margin-bottom: 10px; font-weight: 700; }
+  .pricing-price {
+    font-size: 3.5rem;
+    color: #ffd700;
+    font-weight: 800;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(255,215,0,0.3);
+  }
+  .pricing-period { font-size: 1rem; color: #7f8c8d; margin-bottom: 20px; }
+  .pricing-description { color: #7f8c8d; line-height: 1.6; margin-bottom: 30px; }
+
+  .pricing-features { list-style: none; margin-bottom: 30px; }
+  .pricing-features li {
+    padding: 8px 0;
+    color: #2c3e50;
+    position: relative;
+    padding-left: 25px;
+  }
+  .pricing-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #ffd700;
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+
+  .pricing-button {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: #000000;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(255,215,0,0.4);
+    border: 2px solid #ffd700;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .pricing-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s;
+  }
+  .pricing-button:hover::before { left: 100%; }
+  .pricing-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255,215,0,0.6);
+    background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
+  }
+
+  /* FAQ Section */
+  .faq-section { padding: 80px 50px; background: #ffffff; }
+  .faq-container { max-width: 800px; margin: 0 auto; }
+  .faq-item { margin-bottom: 20px; background: #f8f9fa; border-radius: 10px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #ecf0f1; }
+  .faq-item button {
+    width: 100%; text-align: left; background: none; border: none; font-size: 1.1rem; font-weight: 600;
+    padding: 20px 30px; cursor: pointer; outline: none; transition: all 0.3s;
+    display: flex; justify-content: space-between; align-items: center; color: #2c3e50;
+  }
+  .faq-item button:hover { background: #f0f0f0; }
+  .faq-item button::after { content: '+'; font-size: 1.5rem; transition: transform 0.3s; color: #ffd700; }
+  .faq-item button.active::after { transform: rotate(45deg); }
+  .faq-answer { display: none; padding: 0 30px 20px 30px; color: #7f8c8d; line-height: 1.6; }
+
+  /* CTA Section */
+  .cta-section {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    padding: 80px 50px;
+    text-align: center;
+    color: #ffffff;
+  }
+  .cta-content { max-width: 600px; margin: 0 auto; }
+  .cta-title { font-size: 2.5rem; margin-bottom: 20px; color: #ffd700; font-weight: 700; }
+  .cta-description { font-size: 1.2rem; margin-bottom: 30px; line-height: 1.6; }
+  .cta-button {
+    background: #ffd700;
+    color: #000000;
+    padding: 18px 35px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: inline-block;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(255,215,0,0.4);
+    border: 2px solid #ffd700;
+  }
+  .cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255,215,0,0.6);
+    background: #ffffff;
+  }
+
+  /* Footer */
+  footer {
+    background: linear-gradient(135deg, #333 0%, #111 100%);
+    color: white;
+    padding: 60px 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .footer-section { flex: 1 1 250px; margin-bottom: 30px; }
+  .footer-section h4 { margin-bottom: 20px; font-size: 1.2rem; font-weight: 600; }
+  .footer-section ul { list-style: none; }
+  .footer-section a { color: #ccc; text-decoration: none; transition: color 0.3s; }
+  .footer-section a:hover { color: #ffd700; }
+
+  /* Responsive */
+  @media(max-width:768px){
+    nav ul { flex-direction: column; gap: 10px; }
+    header { flex-direction: column; align-items: flex-start; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .page-header h1 { font-size: 2.5rem; }
+    .pricing-price { font-size: 3rem; }
+  }
+</style>
 </head>
-<body class="bg-white text-gray-900">
-    <!-- Navigation -->
-    <nav class="bg-blue-700 text-white fixed top-0 w-full z-50 shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <h1 class="text-3xl font-extrabold">Digiclick AI</h1>
-            <button id="hamburger" class="md:hidden text-white focus:outline-none">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
-            </button>
-            <ul class="hidden md:flex space-x-8 text-lg">
-                <li><a href="index.html" class="
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo"><h2>Digiclick AI</h2></div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#solutions">Solutions</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <a href="index.html#contact" class="cta-btn">Book a Demo</a>
+  </header>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-content">
+      <h1>Choose Your Plan</h1>
+      <p>Flexible pricing options designed to scale with your business needs</p>
+    </div>
+  </div>
+
+  <!-- Pricing Section -->
+  <section class="pricing-section">
+    <div class="pricing-grid">
+      <!-- Starter Plan -->
+      <div class="pricing-card">
+        <div class="pricing-header">
+          <h3 class="pricing-title">Starter</h3>
+          <div class="pricing-price">$499</div>
+          <div class="pricing-period">One-time setup</div>
+          <p class="pricing-description">Perfect for small businesses looking to establish their online presence.</p>
+        </div>
+
+        <ul class="pricing-features">
+          <li>5-page responsive website</li>
+          <li>Basic SEO optimization</li>
+          <li>Mobile-friendly design</li>
+          <li>Contact form integration</li>
+          <li>1 year hosting included</li>
+          <li>30 days support</li>
+        </ul>
+
+        <button class="pricing-button" onclick="alert('Thank you for choosing Starter! Contact us to get started.')">Get Started</button>
+      </div>
+
+      <!-- Professional Plan -->
+      <div class="pricing-card popular">
+        <div class="popular-badge">Most Popular</div>
+        <div class="pricing-header">
+          <h3 class="pricing-title">Professional</h3>
+          <div class="pricing-price">$1,299</div>
+          <div class="pricing-period">One-time setup</div>
+          <p class="pricing-description">Comprehensive solution for growing businesses with advanced features.</p>
+        </div>
+
+        <ul class="pricing-features">
+          <li>10-page custom website</li>
+          <li>Advanced SEO & Analytics</li>
+          <li>E-commerce integration</li>
+          <li>Custom branding & design</li>
+          <li>CMS integration</li>
+          <li>Social media setup</li>
+          <li>3 months support</li>
+          <li>Priority email support</li>
+        </ul>
+
+        <button class="pricing-button" onclick="alert('Thank you for choosing Professional! Contact us to get started.')">Get Started</button>
+      </div>
+
+      <!-- Enterprise Plan -->
+      <div class="pricing-card">
+        <div class="pricing-header">
+          <h3 class="pricing-title">Enterprise</h3>
+          <div class="pricing-price">$2,999</div>
+          <div class="pricing-period">One-time setup</div>
+          <p class="pricing-description">Full-service solution for large businesses requiring complex functionality.</p>
+        </div>
+
+        <ul class="pricing-features">
+          <li>Unlimited pages</li>
+          <li>Custom web application</li>
+          <li>Advanced integrations</li>
+          <li>Multi-language support</li>
+          <li>Performance optimization</li>
+          <li>Security audit</li>
+          <li>6 months support</li>
+          <li>Dedicated account manager</li>
+          <li>Monthly maintenance</li>
+        </ul>
+
+        <button class="pricing-button" onclick="alert('Thank you for choosing Enterprise! Contact us to get started.')">Get Started</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="section-header" style="text-align: center; margin-bottom: 60px;">
+      <h2 style="font-size: 2.5rem; color: #2c3e50; margin-bottom: 20px; font-weight: 700;">Pricing FAQ</h2>
+      <p style="font-size: 1.2rem; color: #7f8c8d;">Common questions about our pricing and services</p>
+    </div>
+
+    <div class="faq-container">
+      <div class="faq-item">
+        <button>Do you offer payment plans?</button>
+        <div class="faq-answer"><p>Yes, we offer flexible payment plans for Professional and Enterprise packages. Contact us to discuss payment options that work for your budget.</p></div>
+      </div>
+      <div class="faq-item">
+        <button>What does "one-time setup" include?</button>
+        <div class="faq-answer"><p>One-time setup includes the complete website development, testing, and deployment. Ongoing hosting and maintenance are separate services.</p></div>
+      </div>
+      <div class="faq-item">
+        <button>Can I upgrade my plan later?</button>
+        <div class="faq-answer"><p>Absolutely! You can upgrade your plan at any time. We'll assess your current setup and provide a customized upgrade path.</p></div>
+      </div>
+      <div class="faq-item">
+        <button>Do you provide ongoing maintenance?</button>
+        <div class="faq-answer"><p>Yes, we offer monthly maintenance packages starting at $99/month, including updates, security monitoring, and technical support.</p></div>
+      </div>
+      <div class="faq-item">
+        <button>What if I'm not satisfied with the final result?</button>
+        <div class="faq-answer"><p>We offer a 30-day satisfaction guarantee. If you're not completely happy with your website, we'll work with you to make it right or provide a full refund.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2 class="cta-title">Ready to Get Started?</h2>
+      <p class="cta-description">Contact us today for a free consultation and custom quote tailored to your specific needs.</p>
+      <a href="index.html#contact" class="cta-button">Start Your Project</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-section">
+      <h4>Locations</h4>
+      <ul>
+        <li>Washington, DC</li>
+        <li>McLean, VA</li>
+        <li>Atlanta, GA</li>
+        <li>Raleigh, NC</li>
+        <li>Nashville, TN</li>
+        <li>Las Vegas, NV</li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Follow Us</h4>
+      <ul>
+        <li><a href="https://www.instagram.com/digiclickai/">Instagram</a></li>
+        <li><a href="#">LinkedIn</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="projects.html">Our Projects</a></li>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="terms-of-use.html">Terms of Use</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    // FAQ accordion functionality
+    const faqButtons = document.querySelectorAll('.faq-item button');
+    faqButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const answer = btn.nextElementSibling;
+        const isOpen = answer.style.display === 'block';
+        answer.style.display = isOpen ? 'none' : 'block';
+        btn.classList.toggle('active', !isOpen);
+      });
+    });
+  </script>
+
+</body>
+</html>
