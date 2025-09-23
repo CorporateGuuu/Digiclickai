@@ -272,7 +272,7 @@
         <li><a href="index.html#contact">Contact</a></li>
       </ul>
     </nav>
-    <a href="index.html#contact" class="cta-btn">Book a Demo</a>
+    <a href="contact.html" class="cta-btn">Book a Demo</a>
   </header>
 
   <!-- Page Header -->
@@ -506,13 +506,28 @@
       button.textContent = 'Processing Payment...';
 
       setTimeout(() => {
-        button.textContent = 'Payment Successful!';
-        button.style.background = '#27ae60';
+        // Simulate random payment failure (for demo purposes)
+        const paymentSuccess = Math.random() > 0.3; // 70% success rate
 
-        setTimeout(() => {
-          alert('Thank you for your purchase! You will receive a confirmation email shortly with next steps.');
-          window.location.href = 'index.html';
-        }, 1000);
+        if (paymentSuccess) {
+          button.textContent = 'Payment Successful!';
+          button.style.background = '#27ae60';
+
+          setTimeout(() => {
+            alert('Thank you for your purchase! You will receive a confirmation email shortly with next steps.');
+            window.location.href = 'index.html';
+          }, 1000);
+        } else {
+          button.textContent = 'Payment Failed';
+          button.style.background = '#e74c3c';
+          button.disabled = false;
+
+          setTimeout(() => {
+            alert('Payment failed. Please check your payment details and try again. If the problem persists, contact our support team.');
+            button.textContent = 'Try Again - $2,999';
+            button.style.background = 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)';
+          }, 1000);
+        }
       }, 2000);
     }
   </script>

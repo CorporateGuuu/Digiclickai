@@ -220,6 +220,107 @@
   .footer-section a { color: #ccc; text-decoration: none; transition: color 0.3s; }
   .footer-section a:hover { color: #ffd700; }
 
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    animation: fadeIn 0.3s ease-out;
+  }
+  .modal-content {
+    background-color: #ffffff;
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 1200px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideIn 0.3s ease-out;
+  }
+  .modal-header {
+    padding: 30px;
+    border-bottom: 1px solid #ecf0f1;
+    text-align: center;
+  }
+  .modal-header h2 {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .modal-header p {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+  }
+  .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  .close:hover { color: #000; }
+  .modal-body {
+    padding: 30px;
+  }
+  .mockups-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+  }
+  .mockup-item {
+    background: #f8f9fa;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+  }
+  .mockup-item:hover { transform: translateY(-5px); }
+  .mockup-image {
+    width: 100%;
+    height: 200px;
+    background: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  .mockup-content {
+    padding: 20px;
+  }
+  .mockup-title {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .mockup-description {
+    color: #7f8c8d;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
   /* Responsive */
   @media(max-width:768px){
     nav ul { flex-direction: column; gap: 10px; }
@@ -228,6 +329,8 @@
     .page-header h1 { font-size: 2.5rem; }
     .projects-grid { grid-template-columns: 1fr; }
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .modal-content { width: 95%; margin: 10% auto; }
+    .mockups-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -264,7 +367,7 @@
         <div class="project-image">
           <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="E-commerce Website">
           <div class="project-overlay">
-            <a href="#" class="project-link">View Project</a>
+            <a href="#" onclick="openModal(); return false;" class="project-link">View Project</a>
           </div>
         </div>
         <div class="project-content">
@@ -284,13 +387,13 @@
       <div class="project-card">
         <div class="project-image">
           <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80" alt="Business Website">
-          <div class="project-overlay">
-            <a href="#" class="project-link">View Project</a>
-          </div>
+        <div class="project-overlay">
+          <a href="#" onclick="openModal(); return false;" class="project-link">View Project</a>
         </div>
-        <div class="project-content">
-          <span class="project-category">Corporate</span>
-          <h3 class="project-title">Financial Services Portal</h3>
+      </div>
+      <div class="project-content">
+        <span class="project-category">Corporate</span>
+        <h3 class="project-title">Financial Services Portal</h3>
           <p class="project-description">A secure client portal for a financial services company with document management and appointment scheduling.</p>
           <div class="project-tech">
             <span class="tech-tag">Vue.js</span>
@@ -306,7 +409,7 @@
         <div class="project-image">
           <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80" alt="Educational Platform">
           <div class="project-overlay">
-            <a href="#" class="project-link">View Project</a>
+            <a href="#" onclick="openLmsModal(); return false;" class="project-link">View Project</a>
           </div>
         </div>
         <div class="project-content">
@@ -327,7 +430,7 @@
         <div class="project-image">
           <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Healthcare App">
           <div class="project-overlay">
-            <a href="#" class="project-link">View Project</a>
+            <a href="#" onclick="openMedicalModal(); return false;" class="project-link">View Project</a>
           </div>
         </div>
         <div class="project-content">
@@ -348,7 +451,7 @@
         <div class="project-image">
           <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80" alt="Restaurant Website">
           <div class="project-overlay">
-            <a href="#" class="project-link">View Project</a>
+            <a href="#" onclick="openRestaurantModal(); return false;" class="project-link">View Project</a>
           </div>
         </div>
         <div class="project-content">
@@ -369,7 +472,7 @@
         <div class="project-image">
           <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Real Estate Platform">
           <div class="project-overlay">
-            <a href="#" class="project-link">View Project</a>
+            <a href="#" onclick="openPropertyModal(); return false;" class="project-link">View Project</a>
           </div>
         </div>
         <div class="project-content">
@@ -409,6 +512,351 @@
     </div>
   </section>
 
+  <!-- Modal -->
+  <div id="projectModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div class="modal-header">
+        <h2>Financial Services Portal</h2>
+        <p>Customer Example Project Mockups</p>
+      </div>
+      <div class="modal-body">
+        <div class="mockups-grid">
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>Dashboard Mockup</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Client Dashboard</h3>
+              <p class="mockup-description">Secure login portal with personalized financial overview, account balances, and quick access to key features.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>Document Management</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Document Upload & Management</h3>
+              <p class="mockup-description">Easy-to-use interface for uploading financial documents, tax forms, and important paperwork with secure storage.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>Appointment Scheduling</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Appointment Booking System</h3>
+              <p class="mockup-description">Integrated calendar system for scheduling meetings with financial advisors and tracking upcoming appointments.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>Mobile Responsive</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Mobile-First Design</h3>
+              <p class="mockup-description">Fully responsive design that works seamlessly across desktop, tablet, and mobile devices for on-the-go access.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>Security Features</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Advanced Security</h3>
+              <p class="mockup-description">Multi-factor authentication, encrypted data transmission, and compliance with financial industry security standards.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>Reporting Tools</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Financial Reporting</h3>
+              <p class="mockup-description">Comprehensive reporting tools with downloadable statements, transaction history, and performance analytics.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LMS Modal -->
+  <div id="lmsModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeLmsModal()">&times;</span>
+      <div class="modal-header">
+        <h2>Learning Management System</h2>
+        <p>Customer Example Project Mockups</p>
+      </div>
+      <div class="modal-body">
+        <div class="mockups-grid">
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>Student Dashboard</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Student Dashboard</h3>
+              <p class="mockup-description">Personalized dashboard showing enrolled courses, progress tracking, upcoming assignments, and quick access to learning materials.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>Course Management</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Course Creation & Management</h3>
+              <p class="mockup-description">Intuitive interface for instructors to create courses, organize modules, upload content, and manage assignments and quizzes.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>Video Streaming</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Video Lecture Platform</h3>
+              <p class="mockup-description">Integrated video player with progress tracking, note-taking capabilities, and interactive features for engaging online learning.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>Assessment Tools</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Assessment & Grading System</h3>
+              <p class="mockup-description">Comprehensive testing platform with multiple question types, automatic grading, and detailed performance analytics.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>Discussion Forums</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Interactive Discussion Boards</h3>
+              <p class="mockup-description">Community forums for student collaboration, Q&A sessions, and peer-to-peer learning with moderation tools.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>Progress Analytics</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Learning Analytics Dashboard</h3>
+              <p class="mockup-description">Advanced reporting tools for tracking student engagement, completion rates, and identifying areas for improvement.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Medical Modal -->
+  <div id="medicalModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeMedicalModal()">&times;</span>
+      <div class="modal-header">
+        <h2>Medical Practice Management</h2>
+        <p>Customer Example Project Mockups</p>
+      </div>
+      <div class="modal-body">
+        <div class="mockups-grid">
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>Patient Portal</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Patient Portal</h3>
+              <p class="mockup-description">Secure patient portal for appointment scheduling, medical record access, prescription refills, and communication with healthcare providers.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>EHR Integration</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Electronic Health Records</h3>
+              <p class="mockup-description">Integrated EHR system with patient history, treatment plans, lab results, and seamless data sharing between departments.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>Appointment System</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Appointment Management</h3>
+              <p class="mockup-description">Advanced scheduling system with automated reminders, waitlist management, and telemedicine appointment integration.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>Billing Portal</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Medical Billing System</h3>
+              <p class="mockup-description">Comprehensive billing platform with insurance claim processing, payment tracking, and patient billing statements.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>Staff Dashboard</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Staff Management Dashboard</h3>
+              <p class="mockup-description">Administrative dashboard for staff scheduling, task management, inventory tracking, and practice performance analytics.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <span>Compliance Tools</span>
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">HIPAA Compliance Tools</h3>
+              <p class="mockup-description">Built-in compliance features with audit trails, data encryption, access controls, and automated compliance reporting.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Restaurant Modal -->
+  <div id="restaurantModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeRestaurantModal()">&times;</span>
+      <div class="modal-header">
+        <h2>Restaurant Ordering System</h2>
+        <p>Customer Example Project Mockups</p>
+      </div>
+      <div class="modal-body">
+        <div class="mockups-grid">
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Digital Menu Display" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Digital Menu Display</h3>
+              <p class="mockup-description">Interactive online menu with high-quality food photos, detailed descriptions, dietary information, and real-time availability updates.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?auto=format&fit=crop&w=800&q=80" alt="Online Ordering Platform" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Online Ordering Platform</h3>
+              <p class="mockup-description">Seamless ordering system with cart functionality, delivery/pickup options, payment processing, and order tracking.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80" alt="Table Reservation Management" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Table Reservation Management</h3>
+              <p class="mockup-description">Advanced reservation system with real-time availability, automated confirmations, and integration with restaurant POS systems.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800&q=80" alt="Kitchen Order Display" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Kitchen Order Display</h3>
+              <p class="mockup-description">Digital kitchen display system for efficient order management, preparation tracking, and communication between front and back of house.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80" alt="Customer Loyalty Program" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Customer Loyalty Program</h3>
+              <p class="mockup-description">Integrated loyalty program with points tracking, personalized offers, order history, and automated marketing communications.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Restaurant Analytics" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Restaurant Analytics</h3>
+              <p class="mockup-description">Comprehensive analytics dashboard with sales reporting, customer insights, menu performance, and operational metrics.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Property Modal -->
+  <div id="propertyModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closePropertyModal()">&times;</span>
+      <div class="modal-header">
+        <h2>Property Management Portal</h2>
+        <p>Customer Example Project Mockups</p>
+      </div>
+      <div class="modal-body">
+        <div class="mockups-grid">
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80" alt="Property Listings Dashboard" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Property Listings Dashboard</h3>
+              <p class="mockup-description">Comprehensive property database with advanced search filters, photo galleries, virtual tours, and detailed property information for efficient property management.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <img src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=800&q=80" alt="Tenant Management Portal" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Tenant Management Portal</h3>
+              <p class="mockup-description">Complete tenant profiles with lease agreements, payment history, maintenance requests, and communication tools for streamlined tenant relationships.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <img src="https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=800&q=80" alt="Maintenance Request System" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Maintenance Request System</h3>
+              <p class="mockup-description">Automated maintenance tracking with work order management, contractor coordination, and progress updates for efficient property upkeep.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80" alt="Rent Collection & Billing" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Rent Collection & Billing</h3>
+              <p class="mockup-description">Automated rent collection with online payments, late fee tracking, financial reporting, and integrated accounting features.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80" alt="Lease Management System" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Lease Management System</h3>
+              <p class="mockup-description">Digital lease creation, e-signature integration, renewal tracking, and automated notifications for lease lifecycle management.</p>
+            </div>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-image">
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Property Analytics & Reporting" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="mockup-content">
+              <h3 class="mockup-title">Property Analytics & Reporting</h3>
+              <p class="mockup-description">Advanced analytics with occupancy rates, financial performance, maintenance costs, and predictive insights for data-driven property management decisions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer>
     <div class="footer-section">
@@ -440,6 +888,94 @@
       </ul>
     </div>
   </footer>
+
+  <script>
+    // Modal functionality
+    function openModal() {
+      document.getElementById('projectModal').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('projectModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    function openLmsModal() {
+      document.getElementById('lmsModal').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLmsModal() {
+      document.getElementById('lmsModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    function openMedicalModal() {
+      document.getElementById('medicalModal').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMedicalModal() {
+      document.getElementById('medicalModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    function openRestaurantModal() {
+      document.getElementById('restaurantModal').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeRestaurantModal() {
+      document.getElementById('restaurantModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    function openPropertyModal() {
+      document.getElementById('propertyModal').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePropertyModal() {
+      document.getElementById('propertyModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      const modal = document.getElementById('projectModal');
+      const lmsModal = document.getElementById('lmsModal');
+      const medicalModal = document.getElementById('medicalModal');
+      const restaurantModal = document.getElementById('restaurantModal');
+      const propertyModal = document.getElementById('propertyModal');
+      if (event.target == modal) {
+        closeModal();
+      }
+      if (event.target == lmsModal) {
+        closeLmsModal();
+      }
+      if (event.target == medicalModal) {
+        closeMedicalModal();
+      }
+      if (event.target == restaurantModal) {
+        closeRestaurantModal();
+      }
+      if (event.target == propertyModal) {
+        closePropertyModal();
+      }
+    }
+
+    // Close modal on escape key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeModal();
+        closeLmsModal();
+        closeMedicalModal();
+        closeRestaurantModal();
+        closePropertyModal();
+      }
+    });
+  </script>
 
 </body>
 </html>
