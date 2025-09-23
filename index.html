@@ -382,8 +382,10 @@
   @media(max-width:768px){
     .hamburger { display: flex; }
     nav { display: none; }
-    nav.active { display: block; position: absolute; top: 100%; left: 0; width: 100%; background: #ffffff; box-shadow: 0 5px 25px rgba(0,0,0,0.1); padding: 20px; }
+    nav.active { display: block; position: absolute; top: 100%; left: 0; width: 100%; background: #ffffff; box-shadow: 0 5px 25px rgba(0,0,0,0.1); padding: 20px; max-height: 60vh; overflow-y: auto; }
     nav ul { flex-direction: column; gap: 15px; }
+    nav li ul { display: block; margin-left: 20px; margin-top: 10px; }
+    nav li ul li { margin-bottom: 5px; }
     header { flex-direction: row; justify-content: space-between; }
     section { padding: 50px 20px; }
     h2.section-title { font-size: 2rem; }
@@ -400,7 +402,7 @@
   <!-- Header -->
   <header>
     <div class="logo">
-      <img src="logo.jpg" alt="Digiclick AI">
+      <img src="https://via.placeholder.com/200x50/ffd700/000000?text=Digiclick+AI" alt="Digiclick AI">
     </div>
     <nav id="nav-menu">
       <ul>
