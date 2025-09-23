@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Our Solutions - Digiclick AI</title>
+<link rel="stylesheet" href="style.css">
 <style>
   /* General Reset */
   * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -229,6 +230,115 @@
   .footer-section a { color: #ccc; text-decoration: none; transition: color 0.3s; }
   .footer-section a:hover { color: #ffd700; }
 
+  /* Inline style classes */
+  .solution-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .section-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .section-container-wide {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .section-image {
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  .section-image-center {
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .section-description {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+  .section-divider {
+    border: none;
+    height: 2px;
+    background: #ffd700;
+    margin: 40px auto;
+    width: 100px;
+  }
+  .section-subheading {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+  .section-subheading-uppercase {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .section-subsubheading {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+  .section-text {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+  .section-text-last {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    line-height: 1.6;
+  }
+  .section-list {
+    list-style: none;
+    text-align: left;
+    display: inline-block;
+    color: #7f8c8d;
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+  .section-list-margin {
+    list-style: none;
+    text-align: left;
+    display: inline-block;
+    color: #7f8c8d;
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 40px;
+  }
+  .section-left {
+    text-align: left;
+    display: inline-block;
+    margin-bottom: 40px;
+  }
+  .contact-icon {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+
   /* Responsive */
   @media(max-width:768px){
     nav ul { flex-direction: column; gap: 10px; }
@@ -281,7 +391,7 @@
   <section id="solutions">
     <h2 class="section-title">Discover Our Solutions</h2>
     <div class="solutions-grid">
-      <a href="#branding" style="text-decoration:none; color:inherit; display:block;">
+      <a href="#branding" class="solution-link">
         <div class="solution-card">
           <img src="https://img.icons8.com/ios/100/000000/branding.png" alt="Branding">
           <h3>Branding Solutions</h3>
@@ -293,7 +403,7 @@
           </ul>
         </div>
       </a>
-      <a href="#webdev" style="text-decoration:none; color:inherit; display:block;">
+      <a href="#webdev" class="solution-link">
         <div class="solution-card">
           <img src="https://img.icons8.com/ios/100/000000/website.png" alt="Web Dev">
           <h3>Website Development</h3>
@@ -305,7 +415,7 @@
           </ul>
         </div>
       </a>
-      <a href="#marketing" style="text-decoration:none; color:inherit; display:block;">
+      <a href="#marketing" class="solution-link">
         <div class="solution-card">
           <img src="https://img.icons8.com/ios/100/000000/marketing.png" alt="Marketing">
           <h3>Marketing Solutions</h3>
@@ -317,7 +427,7 @@
           </ul>
         </div>
       </a>
-      <a href="#seo" style="text-decoration:none; color:inherit; display:block;">
+      <a href="#seo" class="solution-link">
         <div class="solution-card">
           <img src="https://img.icons8.com/ios/100/000000/seo.png" alt="SEO">
           <h3>SEO Services</h3>
@@ -329,7 +439,7 @@
           </ul>
         </div>
       </a>
-      <a href="#management" style="text-decoration:none; color:inherit; display:block;">
+      <a href="#management" class="solution-link">
         <div class="solution-card">
           <img src="https://img.icons8.com/ios/100/000000/management.png" alt="Management">
           <h3>Website Management</h3>
@@ -341,7 +451,7 @@
           </ul>
         </div>
       </a>
-      <a href="#email" style="text-decoration:none; color:inherit; display:block;">
+      <a href="#email" class="solution-link">
         <div class="solution-card">
           <img src="https://img.icons8.com/ios/100/000000/email.png" alt="Email">
           <h3>Professional Email</h3>
@@ -370,30 +480,30 @@
   <!-- Branding Section -->
   <section id="branding">
     <h2 class="section-title">Branding Solutions</h2>
-    <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-      <img src="https://images.unsplash.com/photo-1634942537034-2531766767d1?auto=format&fit=crop&w=800&q=80" alt="Brand Identity Design" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-      <p style="font-size: 1.2rem; color: #2c3e50; line-height: 1.6; margin-bottom: 40px;">
+    <div class="section-container">
+      <img src="https://images.unsplash.com/photo-1634942537034-2531766767d1?auto=format&fit=crop&w=800&q=80" alt="Brand Identity Design" class="section-image">
+      <p class="section-description">
         We Build Brands That Perform. With our solutions, we don't just design for aesthetics...we create digital experiences that drive action. Whether you're launching something new or leveling up your current brand, we help you stand out with strategy, smart design, and results that matter.
       </p>
-      <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-      <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">Brand Strategy & Positioning</h3>
-      <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+      <hr class="section-divider">
+      <h3 class="section-subheading">Brand Strategy & Positioning</h3>
+      <p class="section-text">
         We define your brand's core identity, mission, and market positioning to ensure a strong foundation for growth.
       </p>
-      <h4 style="font-size: 1.5rem; color: #2c3e50; margin-bottom: 20px;">What We Do:</h4>
-      <ul style="list-style: none; text-align: left; display: inline-block; color: #7f8c8d; font-size: 1rem; line-height: 1.8;">
+      <h4 class="section-subsubheading">What We Do:</h4>
+      <ul class="section-list">
         <li>• Identify your brand's voice and tone</li>
         <li>• Create clear and consistent messaging</li>
         <li>• Position your brand to stand out from competitors</li>
         <li>• Align your visual and written identity across all platforms</li>
       </ul>
-      <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-      <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">Logo & Visual Identity</h3>
-      <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+      <hr class="section-divider">
+      <h3 class="section-subheading">Logo & Visual Identity</h3>
+      <p class="section-text">
         We craft distinctive logos and cohesive visual systems that not only strengthen brand recognition but also create a lasting impression.
       </p>
-      <h4 style="font-size: 1.5rem; color: #2c3e50; margin-bottom: 20px;">We offer:</h4>
-      <ul style="list-style: none; text-align: left; display: inline-block; color: #7f8c8d; font-size: 1rem; line-height: 1.8;">
+      <h4 class="section-subsubheading">We offer:</h4>
+      <ul class="section-list">
         <li>• Custom Logo Design – Unique, memorable logos tailored to your brand</li>
         <li>• Visual Identity Systems – Consistent colors, typography, and style guides</li>
         <li>• Brand Guidelines – Easy-to-follow rules for keeping your brand consistent</li>
@@ -406,14 +516,14 @@
   <!-- Website Development Section -->
   <section id="webdev">
     <h2 class="section-title">Website Development</h2>
-    <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-      <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Website Development" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-      <p style="font-size: 1.2rem; color: #2c3e50; line-height: 1.6; margin-bottom: 40px;">
+    <div class="section-container">
+      <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Website Development" class="section-image">
+      <p class="section-description">
         Design. We design and develop functional and business-specific technological solutions that solve real-world challenges.
       </p>
-      <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-      <h4 style="font-size: 1.5rem; color: #2c3e50; margin-bottom: 20px;">What We Deliver:</h4>
-      <ul style="list-style: none; text-align: left; display: inline-block; color: #7f8c8d; font-size: 1rem; line-height: 1.8;">
+      <hr class="section-divider">
+      <h4 class="section-subsubheading">What We Deliver:</h4>
+      <ul class="section-list">
         <li>• Custom, mobile-friendly designs</li>
         <li>• Fast-loading, SEO-optimized pages</li>
         <li>• Easy-to-manage backends (CMS)</li>
@@ -426,55 +536,55 @@
   <!-- Learning Management System Section -->
   <section id="lms">
     <h2 class="section-title">Learning Management System</h2>
-    <div style="max-width: 1200px; margin: 0 auto;">
-      <div style="text-align: center; margin-bottom: 60px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">Customer Example Project Mockups</h3>
+    <div class="section-container-wide">
+      <div class="section-subsection">
+        <h3 class="section-title-h3">Customer Example Project Mockups</h3>
       </div>
-      <div style="text-align: center; margin-bottom: 60px;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">Student Dashboard</h3>
-        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80" alt="Student Dashboard" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+      <div class="section-subsection">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">Student Dashboard</h3>
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80" alt="Student Dashboard" class="section-image">
+        <p class="section-text">
           Personalized dashboard showing enrolled courses, progress tracking, upcoming assignments, and quick access to learning materials.
         </p>
       </div>
-      <div style="text-align: center; margin-bottom: 60px;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">Course Management</h3>
-        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Course Management" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+      <div class="section-subsection">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">Course Management</h3>
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Course Management" class="section-image">
+        <p class="section-text">
           Intuitive interface for instructors to create courses, organize modules, upload content, and manage assignments and quizzes.
         </p>
       </div>
-      <div style="text-align: center; margin-bottom: 60px;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">Video Streaming</h3>
-        <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80" alt="Video Streaming" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+      <div class="section-subsection">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">Video Streaming</h3>
+        <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80" alt="Video Streaming" class="section-image">
+        <p class="section-text">
           Integrated video player with progress tracking, note-taking capabilities, and interactive features for engaging online learning.
         </p>
       </div>
-      <div style="text-align: center; margin-bottom: 60px;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">Assessment Tools</h3>
-        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80" alt="Assessment Tools" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+      <div class="section-subsection">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">Assessment Tools</h3>
+        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80" alt="Assessment Tools" class="section-image">
+        <p class="section-text">
           Comprehensive testing platform with multiple question types, automatic grading, and detailed performance analytics.
         </p>
       </div>
-      <div style="text-align: center; margin-bottom: 60px;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">Discussion Forums</h3>
-        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80" alt="Discussion Forums" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+      <div class="section-subsection">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">Discussion Forums</h3>
+        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80" alt="Discussion Forums" class="section-image">
+        <p class="section-text">
           Community forums for student collaboration, Q&A sessions, and peer-to-peer learning with moderation tools.
         </p>
       </div>
-      <div style="text-align: center;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">Progress Analytics</h3>
-        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Progress Analytics" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6;">
+      <div class="section-subsection-last">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">Progress Analytics</h3>
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Progress Analytics" class="section-image">
+        <p class="section-text-last">
           Advanced reporting tools for tracking student engagement, completion rates, and identifying areas for improvement.
         </p>
       </div>
@@ -484,16 +594,16 @@
   <!-- Marketing Solutions Section -->
   <section id="marketing">
     <h2 class="section-title">Marketing Solutions</h2>
-    <div style="max-width: 1200px; margin: 0 auto;">
-      <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Marketing Solutions" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: block; margin-left: auto; margin-right: auto;">
-      <div style="text-align: center; margin-bottom: 60px;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">EMAIL MARKETING CAMPAIGN</h3>
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+    <div class="section-container-wide">
+      <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Marketing Solutions" class="section-image-center">
+      <div class="section-subsection">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">EMAIL MARKETING CAMPAIGN</h3>
+        <p class="section-text">
           Unlock the power of Email Marketing with our tailored campaigns designed to directly engage your audience and drive results. We specialize in creating custom-coded email campaigns that are crafted to land directly in your customers' inboxes, ensuring high visibility and better engagement.
         </p>
-        <h4 style="font-size: 1.5rem; color: #2c3e50; margin-bottom: 20px;">Our Services Include:</h4>
-        <ul style="list-style: none; text-align: left; display: inline-block; color: #7f8c8d; font-size: 1rem; line-height: 1.8;">
+        <h4 class="section-subheading">Our Services Include:</h4>
+        <ul class="section-list">
           <li>• Custom Email Designs: Professional and visually appealing email templates that reflect your brand.</li>
           <li>• Targeted Campaigns: We craft emails for specific customer segments to maximize relevance and engagement.</li>
           <li>• Automated Workflows: Set up automated email sequences that nurture leads and drive conversions.</li>
@@ -502,14 +612,14 @@
           <li>• Inbox Placement Guarantee: We ensure that your emails land directly in your customers' inbox, not their spam folder.</li>
         </ul>
       </div>
-      <div style="text-align: center; margin-bottom: 60px;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">Google Ads Campaign Management</h3>
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+      <div class="section-subsection">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">Google Ads Campaign Management</h3>
+        <p class="section-text">
           Maximize your reach with Google Ads, a powerful tool to drive traffic, generate leads, and grow your business. Our expert team specializes in creating tailored Google Ads campaigns that align with your marketing goals. Whether you're looking to increase brand awareness, drive sales, or get more conversions, we've got you covered.
         </p>
-        <h4 style="font-size: 1.5rem; color: #2c3e50; margin-bottom: 20px;">What We Offer:</h4>
-        <ul style="list-style: none; text-align: left; display: inline-block; color: #7f8c8d; font-size: 1rem; line-height: 1.8;">
+        <h4 class="section-subheading">What We Offer:</h4>
+        <ul class="section-list">
           <li>• Targeted Ads: Reach your audience with precision using tailored campaigns.</li>
           <li>• Keyword Research: We help you choose the most effective keywords for your business.</li>
           <li>• Ad Creation: Professionally crafted ads that grab attention and drive action.</li>
@@ -517,14 +627,14 @@
           <li>• Budget Optimization: We optimize your ad spend to get the most out of your budget.</li>
         </ul>
       </div>
-      <div style="text-align: center;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">Social Media Marketing</h3>
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+      <div class="section-subsection-last">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">Social Media Marketing</h3>
+        <p class="section-text">
           Boost your brand visibility and drive engagement with powerful Social Media Marketing. We help you seamlessly connect your website to your social platforms including Instagram, Facebook, TikTok, and more to promote your products and services where your audience spends their time.
         </p>
-        <h4 style="font-size: 1.5rem; color: #2c3e50; margin-bottom: 20px;">What We Offer:</h4>
-        <ul style="list-style: none; text-align: left; display: inline-block; color: #7f8c8d; font-size: 1rem; line-height: 1.8;">
+        <h4 class="section-subheading">What We Offer:</h4>
+        <ul class="section-list">
           <li>• Website & Social Integration: Directly connect your website with your social media accounts for real-time promotion and content sharing.</li>
           <li>• Content Strategy & Scheduling: We plan, create, and schedule engaging content that aligns with your goals.</li>
           <li>• Product & Service Promotion: From new launches to special offers, we help amplify your reach through strategic posts and campaigns.</li>
@@ -538,40 +648,40 @@
   <!-- Website Management Section -->
   <section id="management">
     <h2 class="section-title">Website Management</h2>
-    <div style="max-width: 1200px; margin: 0 auto;">
-      <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Website Management" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: block; margin-left: auto; margin-right: auto;">
-      <div style="text-align: center; margin-bottom: 60px;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">MAINTENANCE AND SUPPORT</h3>
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+    <div class="section-container-wide">
+      <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Website Management" class="section-image-center">
+      <div class="section-subsection">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">MAINTENANCE AND SUPPORT</h3>
+        <p class="section-text">
           Ongoing support to keep your website up-to-date, secure, and at peak performance. Optimization of website speed, mobile-friendliness, and site architecture for better user experience and search engine crawling.
         </p>
       </div>
-      <div style="text-align: center; margin-bottom: 60px;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">24/7 Website Updates & Management</h3>
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+      <div class="section-subsection">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">24/7 Website Updates & Management</h3>
+        <p class="section-text">
           We offer around-the-clock website updates to keep your content fresh and accurate...whether it's updating menus, pricing, uploading event flyers, or making design tweaks.
         </p>
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6;">
+        <p class="section-text-last">
           Our team ensures your site stays current, responsive, and fully aligned with your business needs, day or night.
         </p>
       </div>
-      <div style="text-align: center; margin-bottom: 60px;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">On-Site Updates & Collaboration</h3>
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6;">
+      <div class="section-subsection">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">On-Site Updates & Collaboration</h3>
+        <p class="section-text-last">
           We'll visit your location and work directly with you or your team to make real-time website edits, ensuring everything is accurate, aligned, and up to your standards.
         </p>
       </div>
-      <div style="text-align: center;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">WEEKLY REPORTS</h3>
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+      <div class="section-subsection-last">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">WEEKLY REPORTS</h3>
+        <p class="section-text">
           We make sure you are always up-to-date with your website through our weekly reporting.
         </p>
-        <h4 style="font-size: 1.5rem; color: #2c3e50; margin-bottom: 20px;">What's Included:</h4>
-        <ul style="list-style: none; text-align: left; display: inline-block; color: #7f8c8d; font-size: 1rem; line-height: 1.8;">
+        <h4 class="section-subheading">What's Included:</h4>
+        <ul class="section-list">
           <li>• Weekly performance and traffic reports</li>
           <li>• Site updates and maintenance</li>
           <li>• Security monitoring</li>
@@ -585,19 +695,19 @@
   <!-- SEO Services Section -->
   <section id="seo">
     <h2 class="section-title">SEO Services</h2>
-    <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-      <img src="https://images.unsplash.com/photo-1562577309-2592ab84b1bc?auto=format&fit=crop&w=800&q=80" alt="SEO Services" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-      <p style="font-size: 1.2rem; color: #2c3e50; line-height: 1.6; margin-bottom: 40px;">
+    <div class="section-container">
+      <img src="https://images.unsplash.com/photo-1562577309-2592ab84b1bc?auto=format&fit=crop&w=800&q=80" alt="SEO Services" class="section-image">
+      <p class="section-description">
         Rank Higher. Get Found. Grow Faster. At Webnehtech Solutions, we specialize in helping businesses dominate search results and drive real traffic that converts. Whether you're a local business or an online brand, our proven SEO strategies are tailored to get you in front of the right audience—fast.
       </p>
-      <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-      <h4 style="font-size: 1.5rem; color: #2c3e50; margin-bottom: 20px;">What We Offer</h4>
-      <div style="text-align: left; display: inline-block; margin-bottom: 40px;">
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 20px;"><strong>📈 Local SEO</strong><br>Appear in Google Maps and local search results. Perfect for restaurants, service businesses, retail stores, and professionals looking to attract nearby customers.</p>
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 20px;"><strong>🌐 On-Page SEO</strong><br>We optimize your website's content, structure, and keywords so search engines know exactly what your site is about—and rank it accordingly.</p>
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 20px;"><strong>🔗 Off-Page SEO & Link Building</strong><br>Boost your domain authority with high-quality backlinks, citations, and content partnerships that signal trust to search engines.</p>
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 20px;"><strong>🧠 Technical SEO</strong><br>We fix errors, speed up your site, and improve crawlability so Google can index your pages smoothly and efficiently.</p>
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6;"><strong>📊 SEO Audits & Reporting</strong><br>Get detailed audits of your current SEO performance and monthly reports that show exactly how your rankings and traffic are improving.</p>
+      <hr class="section-hr">
+      <h4 class="section-subheading">What We Offer</h4>
+      <div class="section-left">
+        <p class="section-text"><strong>📈 Local SEO</strong><br>Appear in Google Maps and local search results. Perfect for restaurants, service businesses, retail stores, and professionals looking to attract nearby customers.</p>
+        <p class="section-text"><strong>🌐 On-Page SEO</strong><br>We optimize your website's content, structure, and keywords so search engines know exactly what your site is about—and rank it accordingly.</p>
+        <p class="section-text"><strong>🔗 Off-Page SEO & Link Building</strong><br>Boost your domain authority with high-quality backlinks, citations, and content partnerships that signal trust to search engines.</p>
+        <p class="section-text"><strong>🧠 Technical SEO</strong><br>We fix errors, speed up your site, and improve crawlability so Google can index your pages smoothly and efficiently.</p>
+        <p class="section-text-last"><strong>📊 SEO Audits & Reporting</strong><br>Get detailed audits of your current SEO performance and monthly reports that show exactly how your rankings and traffic are improving.</p>
       </div>
     </div>
   </section>
@@ -605,55 +715,55 @@
   <!-- Medical Practice Management Section -->
   <section id="medical">
     <h2 class="section-title">Medical Practice Management</h2>
-    <div style="max-width: 1200px; margin: 0 auto;">
-      <div style="text-align: center; margin-bottom: 60px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">Customer Example Project Mockups</h3>
+    <div class="section-container-wide">
+      <div class="section-subsection">
+        <h3 class="section-title-h3-uppercase">Customer Example Project Mockups</h3>
       </div>
-      <div style="text-align: center; margin-bottom: 60px;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">Patient Portal</h3>
-        <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=800&q=80" alt="Patient Portal" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+      <div class="section-subsection">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">Patient Portal</h3>
+        <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=800&q=80" alt="Patient Portal" class="section-image">
+        <p class="section-text">
           Secure patient portal for appointment scheduling, medical record access, prescription refills, and communication with healthcare providers.
         </p>
       </div>
-      <div style="text-align: center; margin-bottom: 60px;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">EHR Integration</h3>
-        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?auto=format&fit=crop&w=800&q=80" alt="EHR Integration" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+      <div class="section-subsection">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">EHR Integration</h3>
+        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?auto=format&fit=crop&w=800&q=80" alt="EHR Integration" class="section-image">
+        <p class="section-text">
           Integrated EHR system with patient history, treatment plans, lab results, and seamless data sharing between departments.
         </p>
       </div>
-      <div style="text-align: center; margin-bottom: 60px;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">Appointment System</h3>
-        <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&w=800&q=80" alt="Appointment System" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+      <div class="section-subsection">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">Appointment System</h3>
+        <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&w=800&q=80" alt="Appointment System" class="section-image">
+        <p class="section-text">
           Advanced scheduling system with automated reminders, waitlist management, and telemedicine appointment integration.
         </p>
       </div>
-      <div style="text-align: center; margin-bottom: 60px;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">Billing Portal</h3>
-        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80" alt="Billing Portal" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+      <div class="section-subsection">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">Billing Portal</h3>
+        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80" alt="Billing Portal" class="section-image">
+        <p class="section-text">
           Comprehensive billing platform with insurance claim processing, payment tracking, and patient billing statements.
         </p>
       </div>
-      <div style="text-align: center; margin-bottom: 60px;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">Staff Dashboard</h3>
-        <img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fit=crop&w=800&q=80" alt="Staff Dashboard" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6; margin-bottom: 30px;">
+      <div class="section-subsection">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">Staff Dashboard</h3>
+        <img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?auto=format&fit=crop&w=800&q=80" alt="Staff Dashboard" class="section-image">
+        <p class="section-text">
           Administrative dashboard for staff scheduling, task management, inventory tracking, and practice performance analytics.
         </p>
       </div>
-      <div style="text-align: center;">
-        <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-        <h3 style="font-size: 2rem; color: #2c3e50; margin-bottom: 20px;">Compliance Tools</h3>
-        <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=800&q=80" alt="Compliance Tools" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-        <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6;">
+      <div class="section-subsection-last">
+        <hr class="section-hr">
+        <h3 class="section-title-h3-uppercase">Compliance Tools</h3>
+        <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=800&q=80" alt="Compliance Tools" class="section-image">
+        <p class="section-text-last">
           Built-in compliance features with audit trails, data encryption, access controls, and automated compliance reporting.
         </p>
       </div>
@@ -663,9 +773,9 @@
   <!-- Online Ordering Platform Section -->
   <section id="ordering">
     <h2 class="section-title">Online Ordering Platform</h2>
-    <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-      <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?auto=format&fit=crop&w=800&q=80" alt="Online Ordering Platform" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-      <p style="font-size: 1.2rem; color: #2c3e50; line-height: 1.6; margin-bottom: 40px;">
+    <div class="section-container">
+      <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?auto=format&fit=crop&w=800&q=80" alt="Online Ordering Platform" class="section-image">
+      <p class="section-description">
         Seamless ordering system with cart functionality, delivery/pickup options, payment processing, and order tracking.
       </p>
     </div>
@@ -674,14 +784,14 @@
   <!-- Professional Email Section -->
   <section id="email">
     <h2 class="section-title">Professional Email</h2>
-    <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-      <img src="https://images.unsplash.com/photo-1557200134-90327ee9fafa?auto=format&fit=crop&w=800&q=80" alt="Professional Email" style="width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-      <p style="font-size: 1.2rem; color: #2c3e50; line-height: 1.6; margin-bottom: 40px;">
+    <div class="section-container">
+      <img src="https://images.unsplash.com/photo-1557200134-90327ee9fafa?auto=format&fit=crop&w=800&q=80" alt="Professional Email" class="section-image">
+      <p class="section-description">
         Boost your brand credibility with custom email addresses – starting at just $3.99/user. Give your business the professional edge it deserves with branded email addresses like you@yourcompany.com. Whether you're a freelancer, startup, or established enterprise, a professional email builds trust with clients and sets you apart from the competition.
       </p>
-      <hr style="border: none; height: 2px; background: #ffd700; margin: 40px auto; width: 100px;">
-      <h4 style="font-size: 1.5rem; color: #2c3e50; margin-bottom: 20px;">Why Choose Our Professional Email Service?</h4>
-      <ul style="list-style: none; text-align: left; display: inline-block; color: #7f8c8d; font-size: 1rem; line-height: 1.8; margin-bottom: 40px;">
+      <hr class="section-hr">
+      <h4 class="section-subheading">Why Choose Our Professional Email Service?</h4>
+      <ul class="section-list-margin">
         <li>• Affordable Pricing: Starting at just $3.99 per user/month – no hidden fees.</li>
         <li>• Custom Domains: Use your own domain name (e.g., @yourcompany.com).</li>
         <li>• Reliable & Secure: 99.9% uptime, spam protection, and encryption.</li>
@@ -689,7 +799,7 @@
         <li>• Seamless Integration: Works with your favorite tools like Gmail, Outlook, and more.</li>
         <li>• Support You Can Trust: We're here to help – from setup to troubleshooting.</li>
       </ul>
-      <p style="font-size: 1.1rem; color: #7f8c8d; line-height: 1.6;">
+      <p class="section-text-last">
         Built for Business, Backed by Technology. Your communication deserves the same level of professionalism as your services. A generic Gmail or Yahoo address can hurt your credibility. Make every email count.
       </p>
     </div>
@@ -728,8 +838,8 @@
     <div class="footer-section">
       <h4>Contact Us</h4>
       <ul>
-        <li><img src="https://img.icons8.com/ios/100/000000/phone.png" alt="Phone" style="width:20px; height:20px; vertical-align:middle; margin-right:10px;"><a href="tel:703-447-3265">703-447-3265</a></li>
-        <li><img src="https://img.icons8.com/ios/100/000000/email.png" alt="Email" style="width:20px; height:20px; vertical-align:middle; margin-right:10px;"><a href="mailto:info@digiclickai.com">info@digiclickai.com</a></li>
+        <li><img src="https://img.icons8.com/ios/100/000000/phone.png" alt="Phone" class="contact-icon"><a href="tel:703-447-3265">703-447-3265</a></li>
+        <li><img src="https://img.icons8.com/ios/100/000000/email.png" alt="Email" class="contact-icon"><a href="mailto:info@digiclickai.com">info@digiclickai.com</a></li>
       </ul>
     </div>
   </footer>

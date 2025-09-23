@@ -77,3 +77,134 @@ body {
         font-size: 60px;
     }
 }
+
+/* Footer Contact Icons */
+.contact-icon {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+/* Projects Page Styles */
+.mockup-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Solutions Page Styles */
+.section-container-wide {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.section-subsection {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-subsection-last {
+    text-align: center;
+}
+
+.section-title-h3 {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.section-title-h3-uppercase {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.section-image {
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.section-image-center {
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section-hr {
+    border: none;
+    height: 2px;
+    background: #ffd700;
+    margin: 40px auto;
+    width: 100px;
+}
+
+.section-text {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.section-text-last {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    line-height: 1.6;
+}
+
+.section-description {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    line-height: 1.6;
+    margin-bottom: 40px;
+}
+
+.section-subheading {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.section-list {
+    list-style: none;
+    text-align: left;
+    display: inline-block;
+    color: #7f8c8d;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+.section-list-margin {
+    list-style: none;
+    text-align: left;
+    display: inline-block;
+    color: #7f8c8d;
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+.section-left {
+    text-align: left;
+    display: inline-block;
+    margin-bottom: 40px;
+}
