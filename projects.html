@@ -1,239 +1,443 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Digiclick AI - Projects showcasing AI-powered web and mobile solutions.">
-    <title>Digiclick AI - Projects</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Projects - Digiclick AI</title>
+<style>
+  /* General Reset */
+  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+  body { line-height: 1.6; color: #2c3e50; background-color: #ffffff; }
+  html { scroll-behavior: smooth; }
+
+  /* Header */
+  header {
+    background: #ffffff;
+    color: #2c3e50;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    border-bottom: 1px solid #ecf0f1;
+  }
+  .logo h2 { font-size: 1.8rem; font-weight: 700; color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+  nav ul { list-style: none; display: flex; gap: 30px; position: relative; }
+  nav li { position: relative; }
+  nav a { color: #2c3e50; text-decoration: none; font-weight: 500; padding: 5px 0; display: block; transition: all 0.3s; position: relative; }
+  nav a:hover { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+  nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background: #ffd700; transition: width 0.3s; box-shadow: 0 0 10px rgba(255,215,0,0.5); }
+  nav a:hover::after { width: 100%; }
+  /* Dropdown */
+  nav li ul {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    background: #ffffff;
+    display: none;
+    list-style: none;
+    padding: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+    border: 1px solid #ecf0f1;
+  }
+  nav li:hover ul { display: block; }
+  nav li ul li { width: 180px; padding: 0; }
+  nav li ul li a { padding: 10px 20px; }
+
+  .cta-btn { background: #ffd700; padding: 12px 25px; border-radius: 25px; color: #000000; text-decoration: none; font-weight: 600; transition: all 0.3s; box-shadow: 0 4px 15px rgba(255,215,0,0.3); border: 2px solid #ffd700; }
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,215,0,0.5); background: #ffffff; }
+
+  /* Page Header */
+  .page-header {
+    background: linear-gradient(135deg, rgba(44,62,80,0.9) 0%, rgba(52,152,219,0.8) 100%), url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+    padding: 100px 50px;
+    text-align: center;
+    color: #ffffff;
+    position: relative;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255,215,0,0.1) 0%, rgba(0,0,0,0.8) 100%);
+  }
+  .page-header-content { position: relative; z-index: 1; }
+  .page-header h1 { font-size: 3.5rem; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); font-weight: 700; color: #ffd700; }
+  .page-header p { font-size: 1.4rem; margin-bottom: 0; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); max-width: 600px; margin-left: auto; margin-right: auto; }
+
+  /* Projects Section */
+  .projects-section { padding: 80px 50px; background: #f8f9fa; }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .project-card {
+    background: #ffffff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid #ecf0f1;
+  }
+  .project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  }
+
+  .project-image {
+    position: relative;
+    overflow: hidden;
+    height: 250px;
+  }
+  .project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .project-card:hover .project-image img { transform: scale(1.1); }
+
+  .project-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255,215,0,0.9) 0%, rgba(0,0,0,0.8) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .project-card:hover .project-overlay { opacity: 1; }
+
+  .project-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 15px 30px;
+    border: 2px solid #ffffff;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+  }
+  .project-link:hover {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .project-content { padding: 30px; }
+  .project-category {
+    display: inline-block;
+    background: #ffd700;
+    color: #000000;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+  .project-title {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-weight: 700;
+  }
+  .project-description {
+    color: #7f8c8d;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .tech-tag {
+    background: #f8f9fa;
+    color: #2c3e50;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid #ecf0f1;
+  }
+
+  /* Stats Section */
+  .stats-section {
+    background: #ffffff;
+    padding: 80px 50px;
+    text-align: center;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .stat-item {
+    padding: 30px;
+  }
+  .stat-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #ffd700;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(255,215,0,0.3);
+  }
+  .stat-label {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    font-weight: 600;
+  }
+
+  /* Footer */
+  footer {
+    background: linear-gradient(135deg, #333 0%, #111 100%);
+    color: white;
+    padding: 60px 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .footer-section { flex: 1 1 250px; margin-bottom: 30px; }
+  .footer-section h4 { margin-bottom: 20px; font-size: 1.2rem; font-weight: 600; }
+  .footer-section ul { list-style: none; }
+  .footer-section a { color: #ccc; text-decoration: none; transition: color 0.3s; }
+  .footer-section a:hover { color: #ffd700; }
+
+  /* Responsive */
+  @media(max-width:768px){
+    nav ul { flex-direction: column; gap: 10px; }
+    header { flex-direction: column; align-items: flex-start; }
+    .page-header { padding: 60px 20px; }
+    .page-header h1 { font-size: 2.5rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
 </head>
-<body class="bg-white text-gray-900">
-    <!-- Navigation -->
-    <nav class="bg-blue-700 text-white fixed top-0 w-full z-50 shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <h1 class="text-3xl font-extrabold">Digiclick AI</h1>
-            <button id="hamburger" class="md:hidden text-white focus:outline-none">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
-            </button>
-            <ul class="hidden md:flex space-x-8 text-lg">
-                <li><a href="index.html" class="hover:text-orange-400 transition-colors">Home</a></li>
-                <li><a href="solutions.html" class="hover:text-orange-400 transition-colors">Solutions</a></li>
-                <li><a href="projects.html" class="text-orange-400 font-semibold">Projects</a></li>
-                <li><a href="pricing.html" class="hover:text-orange-400 transition-colors">Pricing</a></li>
-                <li><a href="about.html" class="hover:text-orange-400 transition-colors">About</a></li>
-                <li><a href="contact.html" class="hover:text-orange-400 transition-colors">Contact</a></li>
-                <li><a href="blog.html" class="hover:text-orange-400 transition-colors">Blog</a></li>
-            </ul>
-        </div>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo"><h2>Digiclick AI</h2></div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#solutions">Solutions</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="index.html#about">About Us</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
     </nav>
+    <a href="index.html#contact" class="cta-btn">Book a Demo</a>
+  </header>
 
-    <!-- Mobile Drawer -->
-    <div id="mobile-drawer" class="fixed top-0 right-0 h-full w-64 bg-blue-700 text-white transform translate-x-full transition-transform duration-300 z-50">
-        <div class="flex justify-end p-4">
-            <button id="close-drawer" class="text-white focus:outline-none">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
-        </div>
-        <ul class="flex flex-col space-y-4 p-4 text-lg">
-            <li><a href="index.html" class="hover:text-orange-400 transition-colors">Home</a></li>
-            <li><a href="solutions.html" class="hover:text-orange-400 transition-colors">Solutions</a></li>
-            <li><a href="projects.html" class="text-orange-400 font-semibold">Projects</a></li>
-            <li><a href="pricing.html" class="hover:text-orange-400 transition-colors">Pricing</a></li>
-            <li><a href="about.html" class="hover:text-orange-400 transition-colors">About</a></li>
-            <li><a href="contact.html" class="hover:text-orange-400 transition-colors">Contact</a></li>
-            <li><a href="blog.html" class="hover:text-orange-400 transition-colors">Blog</a></li>
-        </ul>
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-content">
+      <h1>Our Projects</h1>
+      <p>Explore our portfolio of successful web development projects and digital solutions</p>
     </div>
+  </div>
 
-    <!-- Drawer Overlay -->
-    <div class="layout-drawer-overlay" id="layout-drawer-overlay"></div>
-
-    <!-- Hero Section -->
-    <section id="hero" class="hero text-white py-32 section">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-start">
-            <div class="pulse">
-                <h1 class="text-6xl font-extrabold mb-6 text-left">Convert Fast</h1>
-            </div>
-            <h5 class="text-sm font-semibold text-yellow-300 mb-4 text-center w-full">EST 2023</h5>
-            <h3 class="text-lg font-semibold text-left mb-6">
-                <span>DIGICLICK AI®</span> <span>TRUSTED BY BUSINESSES TO </span><strong>CREATE, MANAGE, AND AUTOMATE DIGITAL SOLUTIONS.</strong>
-            </h3>
-            <a href="contact.html" class="dmButtonLink inline-flex items-center px-6 py-3 rounded-xl text-white font-semibold text-center">
-                <span class="icon-star mr-2 text-yellow-300">★</span>
-                <span>Book a demo →</span>
-            </a>
+  <!-- Projects Section -->
+  <section class="projects-section">
+    <div class="projects-grid">
+      <!-- Project 1 -->
+      <div class="project-card">
+        <div class="project-image">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="E-commerce Website">
+          <div class="project-overlay">
+            <a href="#" class="project-link">View Project</a>
+          </div>
         </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50 section">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl font-extrabold mb-12 text-blue-700">Our Projects</h2>
-            <div class="space-y-12">
-                <!-- Project: Rosebar Lounge -->
-                <div class="card p-8 bg-white rounded-xl shadow-lg">
-                    <h3 class="text-2xl font-semibold mb-2 text-blue-700">Rosebar Lounge, DC</h3>
-                    <p class="text-lg font-medium mb-4 text-gray-600">E-commerce Website & App</p>
-                    <h4 class="text-xl font-semibold mb-2 text-gray-900">Project Overview</h4>
-                    <p class="text-lg mb-4 text-gray-600">Built for the #1 nightclub in DC, this high-performance website, powered by AI-driven analytics, streamlines ticket sales and table reservations, all in one seamless experience.</p>
-                </div>
-
-                <!-- Project: Springfield Butcher -->
-                <div class="card p-8 bg-white rounded-xl shadow-lg">
-                    <h3 class="text-2xl font-semibold mb-2 text-blue-700">Springfield Butcher, VA</h3>
-                    <p class="text-lg font-medium mb-4 text-gray-600">Online Ordering</p>
-                    <h4 class="text-xl font-semibold mb-2 text-gray-900">Project Overview</h4>
-                    <p class="text-lg mb-4 text-gray-600">The goal of this project was to launch Springfield Butcher’s first in-house AI-powered online ordering system, eliminating the need for high-cost third-party platforms like Uber Eats and Postmates, and putting control (and profits) back in their hands.</p>
-                </div>
-
-                <!-- Project: Urgent Passport and Visa -->
-                <div class="card p-8 bg-white rounded-xl shadow-lg">
-                    <h3 class="text-2xl font-semibold mb-2 text-blue-700">Urgent Passport and Visa, DC</h3>
-                    <p class="text-lg font-medium mb-4 text-gray-600">Design and Marketing</p>
-                    <h4 class="text-xl font-semibold mb-2 text-gray-900">Project Overview</h4>
-                    <p class="text-lg mb-4 text-gray-600">We’ve launched a user-friendly website designed for fast access to passport and visa services. With just a few clicks, users can easily find the information they need and place orders online through our AI-optimized platform.</p>
-                    <ul class="list-none space-y-2">
-                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Simple navigation for quick ordering</li>
-                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Built-in AI-driven marketing tools to drive traffic</li>
-                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Optimized layout for mobile and desktop users</li>
-                    </ul>
-                </div>
-
-                <!-- Project: TEADM Bubble Tea & Coffee -->
-                <div class="card p-8 bg-white rounded-xl shadow-lg">
-                    <h3 class="text-2xl font-semibold mb-2 text-blue-700">TEADM Bubble Tea & Coffee</h3>
-                    <p class="text-lg font-medium mb-4 text-gray-600">Design and Marketing</p>
-                    <h4 class="text-xl font-semibold mb-2 text-gray-900">Project Overview</h4>
-                    <p class="text-lg mb-4 text-gray-600">To better serve our customers across all 5 DMV locations, TEADM Lounge has upgraded to a faster, modern website with an improved AI-enhanced UI/UX design.</p>
-                    <ul class="list-none space-y-2">
-                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Quick-access links for faster ordering</li>
-                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> Streamlined user experience across devices</li>
-                        <li class="flex items-center text-lg text-gray-600"><span class="text-green-500 mr-2">✔️</span> AI-driven tools that capture and utilize customer data for personalized service</li>
-                    </ul>
-                </div>
-
-                <!-- Project: Pop-Up District -->
-                <div class="card p-8 bg-white rounded-xl shadow-lg">
-                    <h3 class="text-2xl font-semibold mb-2 text-blue-700">Pop-Up District – Eden Center</h3>
-                    <p class="text-lg font-medium mb-4 text-gray-600">Design and Marketing</p>
-                    <h4 class="text-xl font-semibold mb-2 text-gray-900">Project Overview</h4>
-                    <p class="text-lg mb-4 text-gray-600">At Pop-Up District, located in the heart of Eden Center, we built a vibrant and user-friendly website designed to enhance the customer experience from start to finish. Our AI-optimized site reflects the energy and diversity of Pop-Up District, driving engagement, increasing traffic, and supporting vendor growth.</p>
-                </div>
-            </div>
+        <div class="project-content">
+          <span class="project-category">E-commerce</span>
+          <h3 class="project-title">Fashion Retail Platform</h3>
+          <p class="project-description">A complete e-commerce solution with inventory management, payment processing, and customer analytics for a fashion retailer.</p>
+          <div class="project-tech">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">MongoDB</span>
+            <span class="tech-tag">Stripe</span>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- Footer -->
-    <footer class="bg-blue-700 text-white py-10 text-center">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p class="text-lg mb-4">&copy; 2025 Digiclick AI. All rights reserved.</p>
-            <div class="contact-cta card p-6 bg-white text-gray-900 rounded-xl shadow-lg">
-                <h4 class="text-xl font-semibold mb-4 text-blue-700">Get in Touch</h4>
-                <p class="text-lg mb-4 text-gray-600">Ready to elevate your business with AI-powered solutions? Contact us today!</p>
-                <a href="contact.html" class="dmButtonLink inline-flex items-center px-6 py-3 rounded-xl text-white font-semibold">
-                    <span class="icon-star mr-2 text-yellow-300">★</span>
-                    <span>Contact Us</span>
-                </a>
-                <div class="mt-4 flex justify-center space-x-4">
-                    <a href="https://twitter.com" target="_blank" class="text-blue-700 hover:text-orange-400 transition-colors">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.643 4.937c-.835.37-1.732.62-2.675.733a4.67 4.67 0 002.048-2.578 9.3 9.3 0 01-2.958 1.13 4.66 4.66 0 00-7.938 4.25 13.229 13.229 0 01-9.602-4.868c-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878a4.647 4.647 0 01-2.11-.583v.06c0 2.257 1.605 4.138 3.737 4.566a4.68 4.68 0 01-2.103.08c.592 1.848 2.313 3.192 4.356 3.228a9.337 9.337 0 01-5.766 1.987c-.374 0-.743-.022-1.106-.065a13.19 13.19 0 007.14 2.093c8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.401-.014-.602a9.47 9.47 0 002.323-2.41z"/></svg>
-                    </a>
-                    <a href="https://facebook.com" target="_blank" class="text-blue-700 hover:text-orange-400 transition-colors">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.731 0 1.325-.593 1.325-1.325V1.325C24 .593 23.407 0 22.675 0z"/></svg>
-                    </a>
-                    <a href="https://linkedin.com" target="_blank" class="text-blue-700 hover:text-orange-400 transition-colors">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/></svg>
-                    </a>
-                </div>
-            </div>
+      <!-- Project 2 -->
+      <div class="project-card">
+        <div class="project-image">
+          <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80" alt="Business Website">
+          <div class="project-overlay">
+            <a href="#" class="project-link">View Project</a>
+          </div>
         </div>
-    </footer>
+        <div class="project-content">
+          <span class="project-category">Corporate</span>
+          <h3 class="project-title">Financial Services Portal</h3>
+          <p class="project-description">A secure client portal for a financial services company with document management and appointment scheduling.</p>
+          <div class="project-tech">
+            <span class="tech-tag">Vue.js</span>
+            <span class="tech-tag">Laravel</span>
+            <span class="tech-tag">MySQL</span>
+            <span class="tech-tag">AWS</span>
+          </div>
+        </div>
+      </div>
 
-    <script>
-        // Smooth scroll for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
-            });
-        });
+      <!-- Project 3 -->
+      <div class="project-card">
+        <div class="project-image">
+          <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80" alt="Educational Platform">
+          <div class="project-overlay">
+            <a href="#" class="project-link">View Project</a>
+          </div>
+        </div>
+        <div class="project-content">
+          <span class="tech-tag">Education</span>
+          <h3 class="project-title">Learning Management System</h3>
+          <p class="project-description">An interactive LMS platform with video streaming, progress tracking, and certification management for online education.</p>
+          <div class="project-tech">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Express</span>
+            <span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">WebRTC</span>
+          </div>
+        </div>
+      </div>
 
-        // Section animations on scroll
-        const sections = document.querySelectorAll('.section');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.2 });
-        sections.forEach(section => observer.observe(section));
+      <!-- Project 4 -->
+      <div class="project-card">
+        <div class="project-image">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Healthcare App">
+          <div class="project-overlay">
+            <a href="#" class="project-link">View Project</a>
+          </div>
+        </div>
+        <div class="project-content">
+          <span class="project-category">Healthcare</span>
+          <h3 class="project-title">Medical Practice Management</h3>
+          <p class="project-description">A comprehensive system for medical practices including patient records, appointment management, and billing integration.</p>
+          <div class="project-tech">
+            <span class="tech-tag">Angular</span>
+            <span class="tech-tag">Django</span>
+            <span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">Docker</span>
+          </div>
+        </div>
+      </div>
 
-        // Mobile drawer toggle
-        const hamburger = document.getElementById('hamburger');
-        const drawer = document.getElementById('mobile-drawer');
-        const overlay = document.getElementById('layout-drawer-overlay');
-        const closeDrawer = document.getElementById('close-drawer');
+      <!-- Project 5 -->
+      <div class="project-card">
+        <div class="project-image">
+          <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80" alt="Restaurant Website">
+          <div class="project-overlay">
+            <a href="#" class="project-link">View Project</a>
+          </div>
+        </div>
+        <div class="project-content">
+          <span class="project-category">Hospitality</span>
+          <h3 class="project-title">Restaurant Ordering System</h3>
+          <p class="project-description">A modern restaurant website with online ordering, table reservations, and menu management for a local restaurant chain.</p>
+          <div class="project-tech">
+            <span class="tech-tag">Next.js</span>
+            <span class="tech-tag">Stripe</span>
+            <span class="tech-tag">MongoDB</span>
+            <span class="tech-tag">Twilio</span>
+          </div>
+        </div>
+      </div>
 
-        hamburger.addEventListener('click', () => {
-            drawer.classList.toggle('translate-x-full');
-            overlay.classList.toggle('active');
-        });
+      <!-- Project 6 -->
+      <div class="project-card">
+        <div class="project-image">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Real Estate Platform">
+          <div class="project-overlay">
+            <a href="#" class="project-link">View Project</a>
+          </div>
+        </div>
+        <div class="project-content">
+          <span class="project-category">Real Estate</span>
+          <h3 class="project-title">Property Management Portal</h3>
+          <p class="project-description">A comprehensive real estate platform with property listings, tenant management, and maintenance tracking for property managers.</p>
+          <div class="project-tech">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Firebase</span>
+            <span class="tech-tag">Google Maps API</span>
+            <span class="tech-tag">Stripe</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        closeDrawer.addEventListener('click', () => {
-            drawer.classList.add('translate-x-full');
-            overlay.classList.remove('active');
-        });
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">50+</div>
+        <div class="stat-label">Projects Completed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">98%</div>
+        <div class="stat-label">Client Satisfaction</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Support Available</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">5+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+    </div>
+  </section>
 
-        overlay.addEventListener('click', () => {
-            drawer.classList.add('translate-x-full');
-            overlay.classList.remove('active');
-        });
-    </script>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-section">
+      <h4>Locations</h4>
+      <ul>
+        <li>Washington, DC</li>
+        <li>McLean, VA</li>
+        <li>Atlanta, GA</li>
+        <li>Raleigh, NC</li>
+        <li>Nashville, TN</li>
+        <li>Las Vegas, NV</li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Follow Us</h4>
+      <ul>
+        <li><a href="https://www.instagram.com/digiclickai/">Instagram</a></li>
+        <li><a href="#">LinkedIn</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="projects.html">Our Projects</a></li>
+        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="terms-of-use.html">Terms of Use</a></li>
+      </ul>
+    </div>
+  </footer>
+
 </body>
 </html>
