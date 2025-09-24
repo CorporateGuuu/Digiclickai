@@ -35,6 +35,28 @@
   .cta-btn { background: #ffd700; padding: 12px 25px; border-radius: 25px; color: #000000; text-decoration: none; font-weight: 600; transition: all 0.3s; box-shadow: 0 4px 15px rgba(255,215,0,0.3); border: 2px solid #ffd700; }
   .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,215,0,0.5); background: #ffffff; }
 
+  /* Hamburger Menu */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ecf0f1;
+  }
+  .hamburger span {
+    width: 25px;
+    height: 3px;
+    background: #2c3e50;
+    transition: all 0.3s;
+    display: block;
+  }
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+
   /* Page Header */
   .page-header {
     background: linear-gradient(135deg, rgba(44,62,80,0.9) 0%, rgba(52,152,219,0.8) 100%), url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
@@ -236,8 +258,13 @@
 
   /* Responsive */
   @media(max-width:768px){
-    nav ul { flex-direction: column; gap: 10px; }
-    header { flex-direction: column; align-items: flex-start; }
+    .hamburger { display: flex; }
+    nav { display: none; }
+    nav.active { display: block; position: absolute; top: 100%; left: 0; width: 100%; background: #ffffff; box-shadow: 0 5px 25px rgba(0,0,0,0.1); padding: 20px; max-height: 60vh; overflow-y: auto; }
+    nav ul { flex-direction: column; gap: 15px; }
+    nav li ul { display: block; margin-left: 20px; margin-top: 10px; }
+    nav li ul li { margin-bottom: 5px; }
+    header { flex-direction: row; justify-content: space-between; }
     .pricing-grid { grid-template-columns: 1fr; }
     .page-header h1 { font-size: 2.5rem; }
     .pricing-price { font-size: 3rem; }
@@ -249,7 +276,7 @@
   <!-- Header -->
   <header>
     <div class="logo"><h2>Digiclick AI</h2></div>
-    <nav>
+    <nav id="nav-menu">
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="index.html#solutions">Solutions</a></li>
@@ -260,6 +287,11 @@
       </ul>
     </nav>
     <a href="index.html#contact" class="cta-btn">Book a Demo</a>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </header>
 
   <!-- Page Header -->
@@ -426,6 +458,15 @@
         answer.style.display = isOpen ? 'none' : 'block';
         btn.classList.toggle('active', !isOpen);
       });
+    });
+
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav-menu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      nav.classList.toggle('active');
     });
   </script>
 
